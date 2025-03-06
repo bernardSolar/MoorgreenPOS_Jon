@@ -80,15 +80,13 @@ Soft Drinks,Lipton’s Iced Tea,1.50,SD017,50
 Food,Crisps/Snacks,1.00,FD001,50
 Food,Chocolate,1.00,FD002,50
 Food,Pork Scratchings,1.30,FD003,50
-Food,Magnum,2.00,FD002,50
-Extras,Burger,5.00,EX001,50
-Extras,Pizza,5.00,EX002,50
-Extras,Plant (Small),2.50,EX003,50
-Extras,Plant (Medium),5.00,EX004,50
-Extras,Plant (Large),7.50,EX005,50
-Extras,Gates Fund,10.00,EX006,50
-Seed Store,Seed Potatoes,5.00,SS001,50
-Seed Store,Bamboo Canes,1.00,SS002,50
-Seed Store,Seeds (Packet),1.00,SS003,50
-
-
+Food,Magnum,2.00,FD004,50
+£,50p,0.5,MY001,50
+£,25p,0.25,MY002,50
+£,20p,0.20,MY003,50
+£,10p,0.1,MY004,50
+£,5p,0.05,MY005,50
+£,1p,0.01,MY006,50
+£,5,5.0,MY007,50
+£,2,2.0,MY008,50
+£,1,1.0,MY009,50
