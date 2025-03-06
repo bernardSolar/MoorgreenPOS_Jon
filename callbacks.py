@@ -4,6 +4,7 @@ from dash.dependencies import Input, Output, State, ALL
 import dash_bootstrap_components as dbc
 from dash import html
 from layout import create_product_button_content
+from db import record_product_sale
 
 
 def register_callbacks(app, products):
@@ -74,6 +75,15 @@ def register_callbacks(app, products):
             return updated_order
 
         if triggered_id_str == "pay-button":
+            # Record sales before clearing the order
+            for item in current_order:
+                # Find product ID based on category and name
+                for prod_name, price, sku, stock, prod_id in products[item["category"]]:
+                    if prod_name == item["name"]:
+                        # Record the sale with quantity
+                        record_product_sale(prod_id, item.get("count", 1))
+                        break
+            
             return []  # Clear the order when Pay is clicked
 
         try:
