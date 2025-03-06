@@ -1,5 +1,6 @@
 from dash import dcc, html
 import dash_bootstrap_components as dbc
+from db import get_popular_products
 
 def create_product_button_content(name, price, sku, stock, event_pricing_active=False):
     """Create the content for a product button."""
@@ -79,21 +80,43 @@ def all_product_buttons(products):
     """Return a grid of buttons for all products."""
     return create_product_grid(products, "Home")
 
+def popular_product_buttons(products):
+    """Return a grid of buttons for popular products."""
+    # Get popular products from database
+    popular_products = get_popular_products(days=90, limit=15)
+    
+    # If no sales data yet, use first 15 products from Home
+    if not popular_products:
+        popular_products = products["Home"][:15]
+    
+    # Create a dictionary with the popular products for the grid function
+    popular_dict = {"Home": popular_products}
+    
+    return create_product_grid(popular_dict, "Home")
+
 def get_layout(products):
     """Return the complete Dash layout using the products data."""
     tabs = []
+    
+    # Create the Home tab with popular products
+    home_tab_content = html.Div(
+        [
+            html.H5("Most Popular Products", 
+                   style={"marginBottom": "10px", "marginTop": "10px", "paddingLeft": "10px"}),
+            popular_product_buttons(products)
+        ],
+        style={
+            "padding": "5px",
+            "overflowY": "auto",
+            "maxHeight": "600px",
+            "width": "100%"
+        }
+    )
+    tabs.append(dcc.Tab(label="Home", value="Home", children=home_tab_content))
+    
+    # Create remaining category tabs
     for category in products.keys():
-        if category == "Home":
-            tab_content = html.Div(
-                all_product_buttons(products),
-                style={
-                    "padding": "5px",
-                    "overflowY": "auto",
-                    "maxHeight": "600px",
-                    "width": "100%"
-                }
-            )
-        else:
+        if category != "Home":
             tab_content = html.Div(
                 product_buttons(products, category),
                 style={
@@ -103,7 +126,7 @@ def get_layout(products):
                     "width": "100%"
                 }
             )
-        tabs.append(dcc.Tab(label=category, value=category, children=tab_content))
+            tabs.append(dcc.Tab(label=category, value=category, children=tab_content))
 
     layout = dbc.Container(
         [
