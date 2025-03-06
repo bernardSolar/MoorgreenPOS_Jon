@@ -21,7 +21,7 @@ def product_button(name, price, sku, stock, prod_id, category):
             outline=True,
             className="w-100",
             style={
-                "height": "100px",      # Fixed height instead of minHeight
+                "height": "100px",      # Fixed height
                 "margin": "2px",        # Reduced margin
                 "textAlign": "center",  # Center aligned text
                 "whiteSpace": "normal",
@@ -43,12 +43,12 @@ def product_buttons(products, category):
     for name, price, sku, stock, prod_id in products[category]:
         col = dbc.Col(
             product_button(name, price, sku, stock, prod_id, category),
-            width=4,
-            className="mb-1"  # Reduced from mb-2
+            width=2,  # Changed from 4 to 2 (12/5 rounded down) for 5 buttons per row
+            className="mb-1"
         )
         row.append(col)
 
-        if len(row) == 3:
+        if len(row) == 5:  # Changed from 3 to 5 buttons per row
             buttons.append(dbc.Row(row, className="g-1"))
             row = []
 
@@ -65,12 +65,12 @@ def all_product_buttons(products):
     for name, price, sku, stock, prod_id in products["Home"]:
         col = dbc.Col(
             product_button(name, price, sku, stock, prod_id, "Home"),
-            width=4,
-            className="mb-1"  # Reduced from mb-2
+            width=2,  # Changed from 4 to 2 for 5 buttons per row
+            className="mb-1"
         )
         row.append(col)
 
-        if len(row) == 3:
+        if len(row) == 5:  # Changed from 3 to 5 buttons per row
             buttons.append(dbc.Row(row, className="g-1"))
             row = []
 
