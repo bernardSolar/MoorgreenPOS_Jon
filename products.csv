@@ -1,47 +1,92 @@
 category,name,price,sku,stock
-Soil & Compost,Sylvagrow Multi-purpose 40ltr,9.00,SC001,50
-Soil & Compost,Organic 40ltr,10.00,SC002,50
-Soil & Compost,Ericaceous 40ltr,10.00,SC003,50
-Soil & Compost,Bark chips 50ltr,9.00,SC004,50
-Soil & Compost,Farmyard Soil Improver 50ltr,7.00,SC005,50
-Weedkillers,Roundup 1ltr,10.80,WK001,50
-Weedkillers,Weedol Rootkill Plus 1ltr,7.90,WK002,50
-Weedkillers,Weedol Rapid weed Control 1ltr,12.80,WK003,50
-Weedkillers,Weedol Path & Gravel Control 1ltr,9.25,WK004,50
-Weedkillers,SBK Tough Weedkiller 1ltr,11.35,WK005,50
-Weedkillers,SBK Path & Patio Weedkiller 1ltr,5.00,WK006,50
-Weedkillers,Doff Advanced Weedkiller 1ltr,14.50,WK008,50
-Weedkillers,Neudorff Weed Free Plus 1ltr,9.40,WK007,50
-Feeds,Doff Tomato Feed 1ltr,7.20,F001,50
-Feeds,Tomorite 1.2ltr,8.00,F002,50
-Feeds,Doff Liquid Growmore 1ltr,7.20,F003,50
-Feeds,Doff Tomato Feed 10ltr,8.00,F004,50
-Feeds,Doff Chicken Manure 2.25kg,5.70,F005,50
-Feeds,Vitax Liquid Seaweed 1ltr,11.40,F006,50
-Feeds,Phostrogen All Purpose Plant Food 800gm,7.35,F007,50
-Feeds,Doff Liquid Seaweed 1Ltr,10.00,F008,50
-Vitax Range,Q4 0.9kg,8.50,V001,50
-Vitax Range,Sulphate of Potash 1.25kg,14.80,V002,50
-Vitax Range,Super Phosphate 1.25kg,9.90,V003,50
-Vitax Range,Sulphate of Iron 1kg,8.70,V004,50
-Vitax Range,Sulphate of Ammonia 1.25kg,8.40,V005,50
-Vitax Range,Epsom Salts 1.25kg,9.40,V006,50
-Vitax Range,Blood Fish & Bone 1.25kg,6.20,V007,50
-Vitax Range,Bonemeal 1.25kg,6.00,V008,50
-Vitax Range,Lime 3kg,7.90,V009,50
-Vitax Range,Calcified Seaweed 2.5kg,13.42,V010,50
-Pest Control,Provanto Ultimate Bug Killer 1ltr,9.50,PC001,50
-Pest Control,Provanto Fungus Fighter 1ltr,11.90,PC002,50
-Pest Control,Doff Bug & Fungus Control 1ltr,6.70,PC003,50
-Pest Control,Doff 2in1 Rose Shield 1Ltr,6.20,PC004,50
-Pest Control,Rose Clear 3in1 1ltr,10.50,PC005,50
-Pest Control,Fungus Clear Ultra 2 1 ltr,11.00,PC006,50
-Sundries,Key Blank,5.00,S001,50
-Sundries,Incinerator,26.50,S002,50
-Sundries,Waste Bin,15.00,S003,50
-Sundries,Watering Can,20.00,S004,50
-Sundries,Galvanised Wire /m,5.00,S005,50
-Sundries,Netting /m,5.00,S006,50
-Sundries,Canes ea.,1.00,S007,50
-Sundries,Padlock,10.00,S008,50
-Special Offers,Woodscrews,0.01,SP001,1000
+Beer & Cider,Glasshouse Pint,5.00,BC001,50
+Beer & Cider,Glasshouse Half,2.75,BC002,50
+Beer & Cider,Thatcher’s Pint,3.00,BC003,50
+Beer & Cider,Thatcher’s Half,1.75,BC004,50
+Beer & Cider,Carling Pint,3.00,BC005,50
+Beer & Cider,Carling Half,1.75,BC006,50
+Beer & Cider,Guinness Pint,3.75,BC007,50
+Beer & Cider,Guinness Half,2.25,BC008,50
+Beer & Cider,Trad Pint,3.75,BC009,50
+Beer & Cider,Trad Half,2.00,BC010,50
+Beer & Cider,Glasshouse Can,4.50,BC011,50
+Beer & Cider,Bathams Bottle,3.00,BC012,50
+Beer & Cider,London Pride,3.00,BC013,50
+Beer & Cider,Mild Can,3.00,BC014,50
+Beer & Cider,Red Stripe,3.00,BC015,50
+Beer & Cider,Peroni,3.00,BC016,50
+Beer & Cider,Old Mount Cider,3.00,BC017,50
+Beer & Cider,Becks Blue,2.50,BC018,50
+Beer & Cider,Peroni Zero,2.50,BC019,50
+Beer & Cider,Glasshouse Deep Seeded Pint,5.50,BC020,50
+Beer & Cider,Glasshouse Deep Seeded Half,3.00,BC021,50
+Beer & Cider,Guinness West Indies Bottle,3.50,BC022,50
+Beer & Cider,Staropramen Pint,5.00,BC023,50
+Beer & Cider,Staropramen Half,2.75,BC024,50
+Beer & Cider,Bathams Trad Pint,4.75,BC025,50
+Beer & Cider,Bathams Trad Half,2.50,BC026,50
+Wine,Wine Glass (175ml),4.00,WN001,50
+Wine,Wine Bottle,13.50,WN002,50
+Wine,Prosecco Small,4.50,WN003,50
+Wine,Prosecco Large,14.50,WN004,50
+Wine,Wine Glass (250ml),5.50,WN005,50
+Spirits,Gin Double,3.00,SP001,50
+Spirits,Gin Single,2.00,SP002,50
+Spirits,Vodka Double,3.00,SP003,50
+Spirits,Vodka Single,2.00,SP004,50
+Spirits,Bacardi Double,3.00,SP005,50
+Spirits,Bacardi Single,2.00,SP006,50
+Spirits,Wray & Nephew Double,4.00,SP007,50
+Spirits,Wray & Nephew Single,3.00,SP008,50
+Spirits,Appleton Double,3.50,SP009,50
+Spirits,Appleton Single,2.50,SP010,50
+Spirits,Bells Double,3.00,SP011,50
+Spirits,Bells Single,2.00,SP012,50
+Spirits,Grouse Double,3.00,SP013,50
+Spirits,Grouse Single,2.00,SP014,50
+Spirits,Jameson Double,3.50,SP015,50
+Spirits,Jameson Single,2.50,SP016,50
+Spirits,Brandy Double,4.00,SP017,50
+Spirits,Brandy Single,2.75,SP018,50
+Spirits,Jack Daniels Double,4.00,SP019,50
+Spirits,Jack Daniels Single,2.75,SP020,50
+Spirits,Southern Comfort Double,4.00,SP021,50
+Spirits,Southern Comfort Single,2.75,SP022,50
+Spirits,Captain Morgan Double,4.00,SP023,50
+Spirits,Captain Morgan Single,2.75,SP024,50
+Spirits,Baileys Double,3.50,SP025,50
+Spirits,Tia Maria Double,3.50,SP026,50
+Spirits,Tia Maria Single,2.50,SP027,50
+Spirits,Malibu Double,3.50,SP028,50
+Spirits,Malibu Single,2.50,SP029,50
+Spirits,Tequila Double,3.50,SP030,50
+Soft Drinks,Full fat coke,1.50,SD001,50
+Soft Drinks,Diet Coke,1.00,SD002,50
+Soft Drinks,Can Pop,1.00,SD003,50
+Soft Drinks,Tonic Water,1.25,SD004,50
+Soft Drinks,J20,2.50,SD005,50
+Soft Drinks,Appletiser,2.50,SD006,50
+Soft Drinks,Orange Juice,2.00,SD007,50
+Soft Drinks,Costa iced coffee,1.50,SD008,50
+Soft Drinks,Water,1.00,SD009,50
+Soft Drinks,Lemonade glass,1.00,SD010,50
+Soft Drinks,Cordial Splash,0.50,SD011,50
+Soft Drinks,Coke splash,0.50,SD012,50
+Soft Drinks,Lemonade splash,0.50,SD013,50
+Soft Drinks,Red Bull,2.00,SD014,50
+Soft Drinks,Fentimans Ginger Beer,2.50,SD015,50
+Soft Drinks,Fentimans Elderflower,2.50,SD016,50
+Soft Drinks,Lipton’s Iced Tea,1.50,SD017,50
+Food,Crisps/Snacks,1.00,FD001,50
+Food,Chocolate,1.00,FD002,50
+Food,Pork Scratchings,1.30,FD003,50
+Food,Magnum,2.00,FD004,50
+£,50p,0.5,MY001,50
+£,25p,0.25,MY002,50
+£,20p,0.20,MY003,50
+£,10p,0.1,MY004,50
+£,5p,0.05,MY005,50
+£,1p,0.01,MY006,50
+£,£5,5.0,MY007,50
+£,£2,2.0,MY008,50
+£,£1,1.0,MY009,50
