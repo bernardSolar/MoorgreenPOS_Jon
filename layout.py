@@ -21,11 +21,15 @@ def product_button(name, price, sku, stock, prod_id, category):
             outline=True,
             className="w-100",
             style={
-                "minHeight": "65px",  # Reduced from 80px
-                "margin": "3px",      # Reduced from 5px
-                "textAlign": "center", # Changed from left to center
+                "height": "100px",      # Fixed height instead of minHeight
+                "margin": "2px",        # Reduced margin
+                "textAlign": "center",  # Center aligned text
                 "whiteSpace": "normal",
-                "padding": "8px"      # Reduced from 10px
+                "padding": "8px",
+                "display": "flex",      # Use flexbox for centering
+                "flexDirection": "column",
+                "justifyContent": "center",
+                "alignItems": "center"
             },
             n_clicks=0,
         )
@@ -40,16 +44,16 @@ def product_buttons(products, category):
         col = dbc.Col(
             product_button(name, price, sku, stock, prod_id, category),
             width=4,
-            className="mb-2"  # Reduced from mb-3
+            className="mb-1"  # Reduced from mb-2
         )
         row.append(col)
 
         if len(row) == 3:
-            buttons.append(dbc.Row(row, className="g-1"))  # Reduced from g-2
+            buttons.append(dbc.Row(row, className="g-1"))
             row = []
 
     if row:
-        buttons.append(dbc.Row(row, className="g-1"))  # Reduced from g-2
+        buttons.append(dbc.Row(row, className="g-1"))
 
     return html.Div(buttons)
 
@@ -62,16 +66,16 @@ def all_product_buttons(products):
         col = dbc.Col(
             product_button(name, price, sku, stock, prod_id, "Home"),
             width=4,
-            className="mb-2"  # Reduced from mb-3
+            className="mb-1"  # Reduced from mb-2
         )
         row.append(col)
 
         if len(row) == 3:
-            buttons.append(dbc.Row(row, className="g-1"))  # Reduced from g-2
+            buttons.append(dbc.Row(row, className="g-1"))
             row = []
 
     if row:
-        buttons.append(dbc.Row(row, className="g-1"))  # Reduced from g-2
+        buttons.append(dbc.Row(row, className="g-1"))
 
     return buttons
 
