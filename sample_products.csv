@@ -1,0 +1,21 @@
+category,name,price,sku,stock
+Hand Tools,Claw Hammer,15.99,HT001,45
+Hand Tools,Phillips Screwdriver Set,25.99,HT002,30
+Hand Tools,Adjustable Wrench,12.99,HT003,25
+Hand Tools,Measuring Tape,8.99,HT004,60
+Power Tools,Cordless Drill,129.99,PT001,15
+Power Tools,Circular Saw,199.99,PT002,10
+Power Tools,Electric Sander,89.99,PT003,12
+Garden Tools,Garden Fork,22.99,GT001,20
+Garden Tools,Pruning Shears,18.99,GT002,35
+Garden Tools,Garden Spade,24.99,GT003,25
+Garden Tools,Leaf Rake,19.99,GT004,30
+Plants,Tomato Plant,4.99,PL001,100
+Plants,Herb Collection,12.99,PL002,50
+Plants,Rose Bush,15.99,PL003,40
+Soil & Compost,Premium Potting Mix 40L,12.99,SC001,75
+Soil & Compost,Garden Compost 50L,8.99,SC002,60
+Soil & Compost,Mulch 50L,7.99,SC003,80
+Fixings,Wood Screws 200pk,9.99,FX001,150
+Fixings,Wall Plugs 100pk,5.99,FX002,200
+Fixings,Nails 500g,6.99,FX003,175

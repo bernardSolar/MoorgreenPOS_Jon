@@ -1,0 +1,94 @@
+category,name,price,sku,stock
+Beer & Cider,Glasshouse Pint,5.00,BC001,50
+Beer & Cider,Glasshouse Half,2.75,BC002,50
+Beer & Cider,Thatcher’s Pint,3.00,BC003,50
+Beer & Cider,Thatcher’s Half,1.75,BC004,50
+Beer & Cider,Carling Pint,3.00,BC005,50
+Beer & Cider,Carling Half,1.75,BC006,50
+Beer & Cider,Guinness Pint,3.75,BC007,50
+Beer & Cider,Guinness Half,2.25,BC008,50
+Beer & Cider,Trad Pint,3.75,BC009,50
+Beer & Cider,Trad Half,2.00,BC010,50
+Beer & Cider,Glasshouse Can,4.50,BC011,50
+Beer & Cider,Bathams Bottle,3.00,BC012,50
+Beer & Cider,London Pride,3.00,BC013,50
+Beer & Cider,Mild Can,3.00,BC014,50
+Beer & Cider,Red Stripe,3.00,BC015,50
+Beer & Cider,Peroni,3.00,BC016,50
+Beer & Cider,Old Mount Cider,3.00,BC017,50
+Beer & Cider,Becks Blue,2.50,BC018,50
+Beer & Cider,Peroni Zero,2.50,BC019,50
+Beer & Cider,Glasshouse Deep Seeded Pint,5.50,BC020,50
+Beer & Cider,Glasshouse Deep Seeded Half,3.00,BC021,50
+Beer & Cider,Guinness West Indies Bottle,3.50,BC022,50
+Beer & Cider,Staropramen Pint,5.00,BC023,50
+Beer & Cider,Staropramen Half,2.75,BC024,50
+Beer & Cider,Bathams Trad Pint,4.75,BC025,50
+Beer & Cider,Bathams Trad Half,2.50,BC026,50
+Wine,Wine Glass (175ml),4.00,WN001,50
+Wine,Wine Bottle,13.50,WN002,50
+Wine,Prosecco Small,4.50,WN003,50
+Wine,Prosecco Large,14.50,WN004,50
+Wine,Wine Glass (250ml),5.50,WN005,50
+Spirits,Gin Double,3.00,SP001,50
+Spirits,Gin Single,2.00,SP002,50
+Spirits,Vodka Double,3.00,SP003,50
+Spirits,Vodka Single,2.00,SP004,50
+Spirits,Bacardi Double,3.00,SP005,50
+Spirits,Bacardi Single,2.00,SP006,50
+Spirits,Wray & Nephew Double,4.00,SP007,50
+Spirits,Wray & Nephew Single,3.00,SP008,50
+Spirits,Appleton Double,3.50,SP009,50
+Spirits,Appleton Single,2.50,SP010,50
+Spirits,Bells Double,3.00,SP011,50
+Spirits,Bells Single,2.00,SP012,50
+Spirits,Grouse Double,3.00,SP013,50
+Spirits,Grouse Single,2.00,SP014,50
+Spirits,Jameson Double,3.50,SP015,50
+Spirits,Jameson Single,2.50,SP016,50
+Spirits,Brandy Double,4.00,SP017,50
+Spirits,Brandy Single,2.75,SP018,50
+Spirits,Jack Daniels Double,4.00,SP019,50
+Spirits,Jack Daniels Single,2.75,SP020,50
+Spirits,Southern Comfort Double,4.00,SP021,50
+Spirits,Southern Comfort Single,2.75,SP022,50
+Spirits,Captain Morgan Double,4.00,SP023,50
+Spirits,Captain Morgan Single,2.75,SP024,50
+Spirits,Baileys Double,3.50,SP025,50
+Spirits,Tia Maria Double,3.50,SP026,50
+Spirits,Tia Maria Single,2.50,SP027,50
+Spirits,Malibu Double,3.50,SP028,50
+Spirits,Malibu Single,2.50,SP029,50
+Spirits,Tequila Double,3.50,SP030,50
+Soft Drinks,Full fat coke,1.50,SD001,50
+Soft Drinks,Diet Coke,1.00,SD002,50
+Soft Drinks,Can Pop,1.00,SD003,50
+Soft Drinks,Tonic Water,1.25,SD004,50
+Soft Drinks,J20,2.50,SD005,50
+Soft Drinks,Appletiser,2.50,SD006,50
+Soft Drinks,Orange Juice,2.00,SD007,50
+Soft Drinks,Costa iced coffee,1.50,SD008,50
+Soft Drinks,Water,1.00,SD009,50
+Soft Drinks,Lemonade glass,1.00,SD010,50
+Soft Drinks,Cordial Splash,0.50,SD011,50
+Soft Drinks,Coke splash,0.50,SD012,50
+Soft Drinks,Lemonade splash,0.50,SD013,50
+Soft Drinks,Red Bull,2.00,SD014,50
+Soft Drinks,Fentimans Ginger Beer,2.50,SD015,50
+Soft Drinks,Fentimans Elderflower,2.50,SD016,50
+Soft Drinks,Lipton’s Iced Tea,1.50,SD017,50
+Food,Crisps/Snacks,1.00,FD001,50
+Food,Chocolate,1.00,FD002,50
+Food,Pork Scratchings,1.30,FD003,50
+Food,Magnum,2.00,FD002,50
+Extras,Burger,5.00,EX001,50
+Extras,Pizza,5.00,EX002,50
+Extras,Plant (Small),2.50,EX003,50
+Extras,Plant (Medium),5.00,EX004,50
+Extras,Plant (Large),7.50,EX005,50
+Extras,Gates Fund,10.00,EX006,50
+Seed Store,Seed Potatoes,5.00,SS001,50
+Seed Store,Bamboo Canes,1.00,SS002,50
+Seed Store,Seeds (Packet),1.00,SS003,50
+
+

@@ -1,0 +1,9 @@
+--only-binary :all:
+numpy
+pandas
+dash
+dash-bootstrap-components
+Flask
+pyinstaller
+plotly
+sqlalchemy

@@ -1,0 +1,47 @@
+category,name,price,sku,stock
+Soil & Compost,Sylvagrow Multi-purpose 40ltr,9.00,SC001,50
+Soil & Compost,Organic 40ltr,10.00,SC002,50
+Soil & Compost,Ericaceous 40ltr,10.00,SC003,50
+Soil & Compost,Bark chips 50ltr,9.00,SC004,50
+Soil & Compost,Farmyard Soil Improver 50ltr,7.00,SC005,50
+Weedkillers,Roundup 1ltr,10.80,WK001,50
+Weedkillers,Weedol Rootkill Plus 1ltr,7.90,WK002,50
+Weedkillers,Weedol Rapid weed Control 1ltr,12.80,WK003,50
+Weedkillers,Weedol Path & Gravel Control 1ltr,9.25,WK004,50
+Weedkillers,SBK Tough Weedkiller 1ltr,11.35,WK005,50
+Weedkillers,SBK Path & Patio Weedkiller 1ltr,5.00,WK006,50
+Weedkillers,Doff Advanced Weedkiller 1ltr,14.50,WK008,50
+Weedkillers,Neudorff Weed Free Plus 1ltr,9.40,WK007,50
+Feeds,Doff Tomato Feed 1ltr,7.20,F001,50
+Feeds,Tomorite 1.2ltr,8.00,F002,50
+Feeds,Doff Liquid Growmore 1ltr,7.20,F003,50
+Feeds,Doff Tomato Feed 10ltr,8.00,F004,50
+Feeds,Doff Chicken Manure 2.25kg,5.70,F005,50
+Feeds,Vitax Liquid Seaweed 1ltr,11.40,F006,50
+Feeds,Phostrogen All Purpose Plant Food 800gm,7.35,F007,50
+Feeds,Doff Liquid Seaweed 1Ltr,10.00,F008,50
+Vitax Range,Q4 0.9kg,8.50,V001,50
+Vitax Range,Sulphate of Potash 1.25kg,14.80,V002,50
+Vitax Range,Super Phosphate 1.25kg,9.90,V003,50
+Vitax Range,Sulphate of Iron 1kg,8.70,V004,50
+Vitax Range,Sulphate of Ammonia 1.25kg,8.40,V005,50
+Vitax Range,Epsom Salts 1.25kg,9.40,V006,50
+Vitax Range,Blood Fish & Bone 1.25kg,6.20,V007,50
+Vitax Range,Bonemeal 1.25kg,6.00,V008,50
+Vitax Range,Lime 3kg,7.90,V009,50
+Vitax Range,Calcified Seaweed 2.5kg,13.42,V010,50
+Pest Control,Provanto Ultimate Bug Killer 1ltr,9.50,PC001,50
+Pest Control,Provanto Fungus Fighter 1ltr,11.90,PC002,50
+Pest Control,Doff Bug & Fungus Control 1ltr,6.70,PC003,50
+Pest Control,Doff 2in1 Rose Shield 1Ltr,6.20,PC004,50
+Pest Control,Rose Clear 3in1 1ltr,10.50,PC005,50
+Pest Control,Fungus Clear Ultra 2 1 ltr,11.00,PC006,50
+Sundries,Key Blank,5.00,S001,50
+Sundries,Incinerator,26.50,S002,50
+Sundries,Waste Bin,15.00,S003,50
+Sundries,Watering Can,20.00,S004,50
+Sundries,Galvanised Wire /m,5.00,S005,50
+Sundries,Netting /m,5.00,S006,50
+Sundries,Canes ea.,1.00,S007,50
+Sundries,Padlock,10.00,S008,50
+Special Offers,Woodscrews,0.01,SP001,1000
