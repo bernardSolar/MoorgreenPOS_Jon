@@ -18,75 +18,66 @@ def product_button(name, price, sku, stock, prod_id, category):
         id=button_id,
         color="primary",
         outline=True,
-        className="w-100 h-100",
         style={
-            "height": "100px",      # Fixed height
-            "textAlign": "center",  # Center aligned text
+            "height": "100px",
+            "textAlign": "center",
             "whiteSpace": "normal",
             "padding": "8px",
-            "display": "flex",      # Use flexbox for centering
+            "display": "flex",
             "flexDirection": "column",
             "justifyContent": "center",
-            "alignItems": "center"
+            "alignItems": "center",
+            "width": "100%"
         },
         n_clicks=0,
     )
 
+def create_product_grid(products, category):
+    """Create a grid of product buttons with 5 per row."""
+    items = list(products[category])
+    rows = []
+    
+    # Process 5 items per row
+    for i in range(0, len(items), 5):
+        current_row = items[i:i+5]
+        buttons = []
+        
+        # Create button for each product
+        for name, price, sku, stock, prod_id in current_row:
+            buttons.append(
+                html.Div(
+                    product_button(name, price, sku, stock, prod_id, category),
+                    style={"width": "20%", "padding": "3px", "boxSizing": "border-box"},
+                    className="d-inline-block"
+                )
+            )
+            
+        # Add empty placeholders if row isn't complete
+        for _ in range(5 - len(current_row)):
+            buttons.append(
+                html.Div(
+                    style={"width": "20%", "padding": "3px", "boxSizing": "border-box"},
+                    className="d-inline-block"
+                )
+            )
+        
+        # Add completed row to rows list
+        rows.append(
+            html.Div(
+                buttons,
+                style={"width": "100%", "display": "flex", "flexWrap": "nowrap"}
+            )
+        )
+    
+    return html.Div(rows, style={"width": "100%"})
+
 def product_buttons(products, category):
     """Return a grid of product buttons for the given category."""
-    buttons = []
-    items = list(products[category])
-    
-    # Process items in groups of 5 for each row
-    for i in range(0, len(items), 5):
-        row_items = items[i:i+5]
-        row = []
-        
-        for name, price, sku, stock, prod_id in row_items:
-            col = dbc.Col(
-                product_button(name, price, sku, stock, prod_id, category),
-                # Use responsive sizing that adds to 12 (Bootstrap's grid system)
-                xs=12, sm=6, md=4, lg=3, xl="auto", 
-                className="px-1 py-1"  # Small padding
-            )
-            row.append(col)
-            
-        # Add empty columns if row is not complete to maintain equal width
-        if len(row_items) < 5:
-            for _ in range(5 - len(row_items)):
-                row.append(dbc.Col(xs=12, sm=6, md=4, lg=3, xl="auto", className="px-1 py-1"))
-                
-        buttons.append(dbc.Row(row, className="g-0 w-100"))
-        
-    return html.Div(buttons, className="w-100")
+    return create_product_grid(products, category)
 
 def all_product_buttons(products):
     """Return a grid of buttons for all products."""
-    buttons = []
-    items = list(products["Home"])
-    
-    # Process items in groups of 5 for each row
-    for i in range(0, len(items), 5):
-        row_items = items[i:i+5]
-        row = []
-        
-        for name, price, sku, stock, prod_id in row_items:
-            col = dbc.Col(
-                product_button(name, price, sku, stock, prod_id, "Home"),
-                # Use responsive sizing
-                xs=12, sm=6, md=4, lg=3, xl="auto",
-                className="px-1 py-1"  # Small padding
-            )
-            row.append(col)
-            
-        # Add empty columns if row is not complete to maintain equal width
-        if len(row_items) < 5:
-            for _ in range(5 - len(row_items)):
-                row.append(dbc.Col(xs=12, sm=6, md=4, lg=3, xl="auto", className="px-1 py-1"))
-                
-        buttons.append(dbc.Row(row, className="g-0 w-100"))
-        
-    return html.Div(buttons, className="w-100")
+    return create_product_grid(products, "Home")
 
 def get_layout(products):
     """Return the complete Dash layout using the products data."""
@@ -96,7 +87,7 @@ def get_layout(products):
             tab_content = html.Div(
                 all_product_buttons(products),
                 style={
-                    "padding": "10px",
+                    "padding": "5px",
                     "overflowY": "auto",
                     "maxHeight": "600px",
                     "width": "100%"
@@ -106,7 +97,7 @@ def get_layout(products):
             tab_content = html.Div(
                 product_buttons(products, category),
                 style={
-                    "padding": "10px",
+                    "padding": "5px",
                     "overflowY": "auto",
                     "maxHeight": "600px",
                     "width": "100%"
