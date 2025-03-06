@@ -2,10 +2,6 @@ from dash import Dash
 import dash_bootstrap_components as dbc
 from db import init_db, get_products, import_products_from_csv
 import os
-import sys  # Add this import
-
-# Check if settings should be shown
-show_settings = "-s" in sys.argv
 
 # Initialize the database (creates tables if needed)
 init_db()
@@ -34,8 +30,8 @@ app.config.suppress_callback_exceptions = True
 from layout import get_layout
 from callbacks import register_callbacks
 
-# Set the app layout using the products data and show_settings flag
-app.layout = get_layout(products, show_settings)
+# Set the app layout using the products data
+app.layout = get_layout(products)
 
 # Register all callbacks with the app
 register_callbacks(app, products)

@@ -3,7 +3,6 @@ from dash import callback_context
 from dash.dependencies import Input, Output, State, ALL
 import dash_bootstrap_components as dbc
 from dash import html
-from settings_callbacks import register_settings_callbacks
 from layout import create_product_button_content
 
 
@@ -176,8 +175,3 @@ def register_callbacks(app, products):
 
         total = sum(item["price"] * item.get("count", 1) for item in order)
         return item_components, f"Total: £{total:.2f}"
-
-    # Only register settings callbacks if settings tab is visible
-    import sys
-    if "-s" in sys.argv:
-        register_settings_callbacks(app)

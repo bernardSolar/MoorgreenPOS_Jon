@@ -1,6 +1,5 @@
 from dash import dcc, html
 import dash_bootstrap_components as dbc
-from settings_layout import create_settings_layout
 
 def create_product_button_content(name, price, sku, stock, event_pricing_active=False):
     """Create the content for a product button."""
@@ -76,7 +75,7 @@ def all_product_buttons(products):
 
     return buttons
 
-def get_layout(products, show_settings=True):
+def get_layout(products):
     """Return the complete Dash layout using the products data."""
     tabs = []
     for category in products.keys():
@@ -99,13 +98,6 @@ def get_layout(products, show_settings=True):
                 }
             )
         tabs.append(dcc.Tab(label=category, value=category, children=tab_content))
-
-    if show_settings:
-        tabs.append(dcc.Tab(
-            label="⚙️ Settings",
-            value="settings",
-            children=create_settings_layout()
-        ))
 
     layout = dbc.Container(
         [
