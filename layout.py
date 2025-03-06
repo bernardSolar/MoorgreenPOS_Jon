@@ -13,71 +13,80 @@ def create_product_button_content(name, price, sku, stock, event_pricing_active=
 def product_button(name, price, sku, stock, prod_id, category):
     """Create a single product button with consistent sizing."""
     button_id = {"type": "product-button", "category": category, "name": name.replace('.', '_')}
-    return html.Div([
-        dbc.Button(
-            children=create_product_button_content(name, price, sku, stock),
-            id=button_id,
-            color="primary",
-            outline=True,
-            className="w-100",
-            style={
-                "height": "100px",      # Fixed height
-                "margin": "2px",        # Reduced margin
-                "textAlign": "center",  # Center aligned text
-                "whiteSpace": "normal",
-                "padding": "8px",
-                "display": "flex",      # Use flexbox for centering
-                "flexDirection": "column",
-                "justifyContent": "center",
-                "alignItems": "center"
-            },
-            n_clicks=0,
-        )
-    ], id={"type": "button-wrapper", "category": category, "name": name.replace('.', '_')})
+    return dbc.Button(
+        children=create_product_button_content(name, price, sku, stock),
+        id=button_id,
+        color="primary",
+        outline=True,
+        className="w-100 h-100",
+        style={
+            "height": "100px",      # Fixed height
+            "textAlign": "center",  # Center aligned text
+            "whiteSpace": "normal",
+            "padding": "8px",
+            "display": "flex",      # Use flexbox for centering
+            "flexDirection": "column",
+            "justifyContent": "center",
+            "alignItems": "center"
+        },
+        n_clicks=0,
+    )
 
 def product_buttons(products, category):
     """Return a grid of product buttons for the given category."""
     buttons = []
-    row = []
-
-    for name, price, sku, stock, prod_id in products[category]:
-        col = dbc.Col(
-            product_button(name, price, sku, stock, prod_id, category),
-            width=2,  # Changed from 4 to 2 (12/5 rounded down) for 5 buttons per row
-            className="mb-1"
-        )
-        row.append(col)
-
-        if len(row) == 5:  # Changed from 3 to 5 buttons per row
-            buttons.append(dbc.Row(row, className="g-1"))
-            row = []
-
-    if row:
-        buttons.append(dbc.Row(row, className="g-1"))
-
-    return html.Div(buttons)
+    items = list(products[category])
+    
+    # Process items in groups of 5 for each row
+    for i in range(0, len(items), 5):
+        row_items = items[i:i+5]
+        row = []
+        
+        for name, price, sku, stock, prod_id in row_items:
+            col = dbc.Col(
+                product_button(name, price, sku, stock, prod_id, category),
+                # Use responsive sizing that adds to 12 (Bootstrap's grid system)
+                xs=12, sm=6, md=4, lg=3, xl="auto", 
+                className="px-1 py-1"  # Small padding
+            )
+            row.append(col)
+            
+        # Add empty columns if row is not complete to maintain equal width
+        if len(row_items) < 5:
+            for _ in range(5 - len(row_items)):
+                row.append(dbc.Col(xs=12, sm=6, md=4, lg=3, xl="auto", className="px-1 py-1"))
+                
+        buttons.append(dbc.Row(row, className="g-0 w-100"))
+        
+    return html.Div(buttons, className="w-100")
 
 def all_product_buttons(products):
     """Return a grid of buttons for all products."""
     buttons = []
-    row = []
-
-    for name, price, sku, stock, prod_id in products["Home"]:
-        col = dbc.Col(
-            product_button(name, price, sku, stock, prod_id, "Home"),
-            width=2,  # Changed from 4 to 2 for 5 buttons per row
-            className="mb-1"
-        )
-        row.append(col)
-
-        if len(row) == 5:  # Changed from 3 to 5 buttons per row
-            buttons.append(dbc.Row(row, className="g-1"))
-            row = []
-
-    if row:
-        buttons.append(dbc.Row(row, className="g-1"))
-
-    return buttons
+    items = list(products["Home"])
+    
+    # Process items in groups of 5 for each row
+    for i in range(0, len(items), 5):
+        row_items = items[i:i+5]
+        row = []
+        
+        for name, price, sku, stock, prod_id in row_items:
+            col = dbc.Col(
+                product_button(name, price, sku, stock, prod_id, "Home"),
+                # Use responsive sizing
+                xs=12, sm=6, md=4, lg=3, xl="auto",
+                className="px-1 py-1"  # Small padding
+            )
+            row.append(col)
+            
+        # Add empty columns if row is not complete to maintain equal width
+        if len(row_items) < 5:
+            for _ in range(5 - len(row_items)):
+                row.append(dbc.Col(xs=12, sm=6, md=4, lg=3, xl="auto", className="px-1 py-1"))
+                
+        buttons.append(dbc.Row(row, className="g-0 w-100"))
+        
+    return html.Div(buttons, className="w-100")
 
 def get_layout(products):
     """Return the complete Dash layout using the products data."""
@@ -87,18 +96,20 @@ def get_layout(products):
             tab_content = html.Div(
                 all_product_buttons(products),
                 style={
-                    "padding": "20px",
+                    "padding": "10px",
                     "overflowY": "auto",
-                    "maxHeight": "600px"
+                    "maxHeight": "600px",
+                    "width": "100%"
                 }
             )
         else:
             tab_content = html.Div(
                 product_buttons(products, category),
                 style={
-                    "padding": "20px",
+                    "padding": "10px",
                     "overflowY": "auto",
-                    "maxHeight": "600px"
+                    "maxHeight": "600px",
+                    "width": "100%"
                 }
             )
         tabs.append(dcc.Tab(label=category, value=category, children=tab_content))
@@ -130,6 +141,7 @@ def get_layout(products):
                             children=tabs,
                         ),
                         width=8,
+                        className="pe-1"
                     ),
                     dbc.Col(
                         html.Div(
@@ -169,6 +181,7 @@ def get_layout(products):
                             ]
                         ),
                         width=4,
+                        className="ps-1"
                     ),
                 ],
                 align="start",
