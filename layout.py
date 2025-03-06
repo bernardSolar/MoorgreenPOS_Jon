@@ -4,11 +4,12 @@ import dash_bootstrap_components as dbc
 def create_product_button_content(name, price, sku, stock, event_pricing_active=False):
     """Create the content for a product button."""
     display_price = price * 1.1 if event_pricing_active else price
-    return [
+    # No break between name and price - all in one div with left alignment
+    return html.Div([
         html.Strong(name),
         html.Br(),
         f"£{display_price:.2f}"
-    ]
+    ], style={"textAlign": "left"})
 
 def product_button(name, price, sku, stock, prod_id, category):
     """Create a single product button with consistent sizing."""
@@ -20,13 +21,12 @@ def product_button(name, price, sku, stock, prod_id, category):
         outline=True,
         style={
             "height": "100px",
-            "textAlign": "center",
             "whiteSpace": "normal",
-            "padding": "8px",
+            "padding": "10px",
             "display": "flex",
             "flexDirection": "column",
             "justifyContent": "center",
-            "alignItems": "center",
+            "alignItems": "flex-start",  # Left alignment
             "width": "100%"
         },
         n_clicks=0,
