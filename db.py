@@ -35,8 +35,73 @@ def init_db():
             UNIQUE(category_id, name)
         )
     ''')
+    
+    # Create product_sales table for tracking sales history
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS product_sales (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            product_id INTEGER NOT NULL,
+            quantity INTEGER NOT NULL,
+            sale_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (product_id) REFERENCES products (id)
+        )
+    ''')
+    
     conn.commit()
     conn.close()
+
+def record_product_sale(product_id, quantity):
+    """Record a product sale in the database."""
+    conn = sqlite3.connect(DB_FILE)
+    cur = conn.cursor()
+    try:
+        cur.execute(
+            "INSERT INTO product_sales (product_id, quantity) VALUES (?, ?)",
+            (product_id, quantity)
+        )
+        conn.commit()
+        return True
+    except Exception as e:
+        print(f"Error recording sale: {e}")
+        return False
+    finally:
+        conn.close()
+
+def get_popular_products(days=90, limit=15):
+    """Get the most popular products based on sales within a specified time period."""
+    conn = sqlite3.connect(DB_FILE)
+    cur = conn.cursor()
+    
+    try:
+        # First check if we have any sales data
+        cur.execute("SELECT COUNT(*) FROM product_sales")
+        count = cur.fetchone()[0]
+        
+        if count == 0:
+            return []
+            
+        cur.execute("""
+            SELECT p.id, c.name as category, p.name, p.price, p.sku, p.stock, 
+                   SUM(ps.quantity) as total_sold
+            FROM products p
+            JOIN categories c ON p.category_id = c.id
+            JOIN product_sales ps ON p.id = ps.product_id
+            WHERE ps.sale_date > datetime('now', ? || ' days')
+            GROUP BY p.id
+            ORDER BY total_sold DESC
+            LIMIT ?
+        """, (f"-{days}", limit))
+        
+        popular_products = []
+        for prod_id, category, name, price, sku, stock, _ in cur.fetchall():
+            popular_products.append((name, price, sku, stock, prod_id))
+            
+        return popular_products
+    except Exception as e:
+        print(f"Error getting popular products: {e}")
+        return []
+    finally:
+        conn.close()
 
 # Add new functions for category management
 def add_category(name):
