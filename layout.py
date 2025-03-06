@@ -6,8 +6,8 @@ def create_product_button_content(name, price, sku, stock, event_pricing_active=
     display_price = price * 1.1 if event_pricing_active else price
     return [
         f"{name} - £{display_price:.2f}",
-        html.Br(),
-        html.Small(f"SKU: {sku} | Stock: {stock}")
+        html.Br()
+        # Removed SKU and Stock information from buttons
     ]
 
 def product_button(name, price, sku, stock, prod_id, category):
