@@ -85,7 +85,7 @@ def get_layout(products):
                 style={
                     "padding": "20px",
                     "overflowY": "auto",
-                    "maxHeight": "800px"
+                    "maxHeight": "600px"
                 }
             )
         else:
@@ -94,7 +94,7 @@ def get_layout(products):
                 style={
                     "padding": "20px",
                     "overflowY": "auto",
-                    "maxHeight": "800px"
+                    "maxHeight": "600px"
                 }
             )
         tabs.append(dcc.Tab(label=category, value=category, children=tab_content))
@@ -149,7 +149,7 @@ def get_layout(products):
                                 html.Div(
                                     id="order-list",
                                     style={
-                                        "height": "600px",
+                                        "height": "400px",
                                         "border": "1px solid #ccc",
                                         "padding": "10px",
                                         "overflowY": "auto"
