@@ -5,9 +5,9 @@ def create_product_button_content(name, price, sku, stock, event_pricing_active=
     """Create the content for a product button."""
     display_price = price * 1.1 if event_pricing_active else price
     return [
-        f"{name} - £{display_price:.2f}",
-        html.Br()
-        # Removed SKU and Stock information from buttons
+        html.Strong(name),
+        html.Br(),
+        f"£{display_price:.2f}"
     ]
 
 def product_button(name, price, sku, stock, prod_id, category):
@@ -19,13 +19,13 @@ def product_button(name, price, sku, stock, prod_id, category):
             id=button_id,
             color="primary",
             outline=True,
-            className="w-100 h-100",
+            className="w-100",
             style={
-                "minHeight": "80px",
-                "margin": "5px",
-                "textAlign": "left",
+                "minHeight": "65px",  # Reduced from 80px
+                "margin": "3px",      # Reduced from 5px
+                "textAlign": "center", # Changed from left to center
                 "whiteSpace": "normal",
-                "padding": "10px"
+                "padding": "8px"      # Reduced from 10px
             },
             n_clicks=0,
         )
@@ -40,16 +40,16 @@ def product_buttons(products, category):
         col = dbc.Col(
             product_button(name, price, sku, stock, prod_id, category),
             width=4,
-            className="mb-3"
+            className="mb-2"  # Reduced from mb-3
         )
         row.append(col)
 
         if len(row) == 3:
-            buttons.append(dbc.Row(row, className="g-2"))
+            buttons.append(dbc.Row(row, className="g-1"))  # Reduced from g-2
             row = []
 
     if row:
-        buttons.append(dbc.Row(row, className="g-2"))
+        buttons.append(dbc.Row(row, className="g-1"))  # Reduced from g-2
 
     return html.Div(buttons)
 
@@ -62,16 +62,16 @@ def all_product_buttons(products):
         col = dbc.Col(
             product_button(name, price, sku, stock, prod_id, "Home"),
             width=4,
-            className="mb-3"
+            className="mb-2"  # Reduced from mb-3
         )
         row.append(col)
 
         if len(row) == 3:
-            buttons.append(dbc.Row(row, className="g-2"))
+            buttons.append(dbc.Row(row, className="g-1"))  # Reduced from g-2
             row = []
 
     if row:
-        buttons.append(dbc.Row(row, className="g-2"))
+        buttons.append(dbc.Row(row, className="g-1"))  # Reduced from g-2
 
     return buttons
 
