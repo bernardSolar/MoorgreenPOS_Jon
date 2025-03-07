@@ -155,12 +155,13 @@ def register_callbacks(app, products):
 
     @app.callback(
         [Output("order-list", "children"),
-         Output("order-total", "children")],
+         Output("order-total", "children"),
+         Output("order-total-top", "children")],  # Added output for top total
         [Input("order-store", "data")]
     )
     def update_order_display(order):
         if not order:
-            return "No items selected.", "Total: £0.00"
+            return "No items selected.", "Total: £0.00", "Total: £0.00"
 
         item_components = []
         for i, item in enumerate(order):
@@ -197,4 +198,7 @@ def register_callbacks(app, products):
             item_components.append(item_row)
 
         total = sum(item["price"] * item.get("count", 1) for item in order)
-        return item_components, f"Total: £{total:.2f}"
+        total_text = f"Total: £{total:.2f}"
+        
+        # Return values for all three outputs: order list, bottom total, and top total
+        return item_components, total_text, total_text
