@@ -170,7 +170,11 @@ def get_layout(products):
                             [
                                 dbc.Row(
                                     [
-                                        dbc.Col(html.H4("Order Summary"), width=8),
+                                        dbc.Col([
+                                            html.H4("Order Summary"),
+                                            html.Div(id="order-total-top", children="Total: £0.00", 
+                                                    style={"fontSize": "18px", "fontWeight": "bold"}),
+                                        ], width=8),
                                         dbc.Col(
                                             dbc.Button(
                                                 "Event",
