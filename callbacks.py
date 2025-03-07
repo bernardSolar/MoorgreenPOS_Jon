@@ -173,7 +173,7 @@ def register_callbacks(app, products):
                         html.Div([
                             f"{i + 1}. {item['name']} (x{count})",
                             html.Br(),
-                            html.Small(f"SKU: {item['sku']} - £{unit_price:.2f} each"),
+                            html.Small(f"£{unit_price:.2f} each"),
                             html.Br(),
                             html.Small(f"Subtotal: £{subtotal:.2f}")
                         ]),
