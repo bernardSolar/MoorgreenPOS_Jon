@@ -171,11 +171,11 @@ def register_callbacks(app, products):
                 [
                     dbc.Col(
                         html.Div([
-                            f"{i + 1}. {item['name']} (x{count})",
+                            html.Span(f"{i + 1}. {item['name']} (x{count})", style={"fontSize": "20px"}),
                             html.Br(),
-                            html.Small(f"£{unit_price:.2f} each"),
+                            html.Span(f"£{unit_price:.2f} each", style={"fontSize": "16px"}),
                             html.Br(),
-                            html.Small(f"Subtotal: £{subtotal:.2f}")
+                            html.Span(f"Subtotal: £{subtotal:.2f}", style={"fontSize": "16px"})
                         ]),
                         width=8
                     ),
