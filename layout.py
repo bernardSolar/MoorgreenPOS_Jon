@@ -80,7 +80,7 @@ def all_product_buttons(products):
     """Return a grid of buttons for all products."""
     return create_product_grid(products, "Home")
 
-def popular_product_buttons(products):
+def popular_product_buttons(products, refresh_trigger=None):
     """Return a grid of buttons for popular products."""
     # Get popular products from database
     popular_products = get_popular_products(days=90, limit=15)
@@ -94,16 +94,16 @@ def popular_product_buttons(products):
     
     return create_product_grid(popular_dict, "Home")
 
-def get_layout(products):
-    """Return the complete Dash layout using the products data."""
-    tabs = []
-    
-    # Create the Home tab with popular products
-    home_tab_content = html.Div(
+def get_home_content(products, refresh_trigger=None):
+    """Get the content for the Home tab with popular products."""
+    return html.Div(
         [
             html.H5("Most Popular Products", 
                    style={"marginBottom": "10px", "marginTop": "10px", "paddingLeft": "10px"}),
-            popular_product_buttons(products)
+            html.Div(
+                popular_product_buttons(products),
+                id="popular-products-container"
+            )
         ],
         style={
             "padding": "5px",
@@ -112,6 +112,13 @@ def get_layout(products):
             "width": "100%"
         }
     )
+
+def get_layout(products):
+    """Return the complete Dash layout using the products data."""
+    tabs = []
+    
+    # Create the Home tab with popular products
+    home_tab_content = get_home_content(products)
     tabs.append(dcc.Tab(label="Home", value="Home", children=home_tab_content))
     
     # Create remaining category tabs
@@ -132,6 +139,7 @@ def get_layout(products):
         [
             dcc.Store(id="order-store", data=[]),
             dcc.Store(id="event-pricing-active", data=False),
+            dcc.Store(id="refresh-trigger", data=0),  # Added to trigger home screen refresh
             dbc.Row(
                 dbc.Col(
                     html.Img(
