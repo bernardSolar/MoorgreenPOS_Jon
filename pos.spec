@@ -8,7 +8,7 @@ a = Analysis(
     binaries=[],
     datas=[
         ('assets', 'assets'),  # Include assets directory
-        ('moorgreen_clubhouse.csv', '.'),  # Include CSV file
+        ('products.csv', '.'),  # Include CSV file
         ('products.db', '.')  # Include database file if it exists
     ],
     hiddenimports=[
