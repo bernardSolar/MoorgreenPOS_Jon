@@ -168,50 +168,63 @@ def get_layout(products):
                     dbc.Col(
                         html.Div(
                             [
-                                # Simple header bar - all in one row
-                                dbc.Row(
-                                    [
-                                        # Order Summary heading
-                                        dbc.Col(
-                                            html.H5("Order Summary", 
-                                                  style={"margin": "0", "paddingTop": "5px"}),
-                                            width=5,
-                                        ),
-                                        # Total display
-                                        dbc.Col(
-                                            html.Div(
-                                                id="order-total-top", 
-                                                children="Total: £0.00", 
-                                                style={"fontWeight": "bold", "paddingTop": "5px", "textAlign": "right"}
+                                # Container for header and order list to ensure same width
+                                html.Div([
+                                    # Simple header bar - all in one row
+                                    dbc.Row(
+                                        [
+                                            # Order Summary heading
+                                            dbc.Col(
+                                                html.H5("Order Summary", 
+                                                      style={"margin": "0", "paddingTop": "5px"}),
+                                                width=5,
                                             ),
-                                            width=4,
-                                        ),
-                                        # Event button
-                                        dbc.Col(
-                                            dbc.Button(
-                                                "Event",
-                                                id="event-pricing-button",
-                                                color="secondary",
-                                                size="sm",
-                                                className="float-end"
+                                            # Total display
+                                            dbc.Col(
+                                                html.Div(
+                                                    id="order-total-top", 
+                                                    children="Total: £0.00", 
+                                                    style={"fontWeight": "bold", "paddingTop": "5px", "textAlign": "right"}
+                                                ),
+                                                width=4,
                                             ),
-                                            width=3,
-                                        ),
-                                    ],
-                                    className="mb-2 py-1 align-items-center",
-                                    style={"backgroundColor": "#f8f9fa", "border": "1px solid #dee2e6", "borderRadius": "4px"}
-                                ),
+                                            # Event button
+                                            dbc.Col(
+                                                dbc.Button(
+                                                    "Event",
+                                                    id="event-pricing-button",
+                                                    color="secondary",
+                                                    size="sm",
+                                                    className="float-end"
+                                                ),
+                                                width=3,
+                                            ),
+                                        ],
+                                        className="py-1 align-items-center g-0",
+                                        style={
+                                            "backgroundColor": "#f8f9fa", 
+                                            "border": "1px solid #ccc", 
+                                            "borderRadius": "4px 4px 0 0",
+                                            "borderBottom": "none",
+                                            "margin": "0",
+                                            "width": "100%",
+                                            "padding": "0 5px"
+                                        }
+                                    ),
+                                    
+                                    # Order list
+                                    html.Div(
+                                        id="order-list",
+                                        style={
+                                            "height": "400px",
+                                            "border": "1px solid #ccc",
+                                            "borderRadius": "0 0 4px 4px",
+                                            "padding": "10px",
+                                            "overflowY": "auto"
+                                        }
+                                    )
+                                ], style={"width": "100%"}),
                                 
-                                # Order list
-                                html.Div(
-                                    id="order-list",
-                                    style={
-                                        "height": "400px",
-                                        "border": "1px solid #ccc",
-                                        "padding": "10px",
-                                        "overflowY": "auto"
-                                    }
-                                ),
                                 html.H4(id="order-total", children="Total: £0.00", style={"marginTop": "10px"}),
                                 dbc.Button(
                                     "Place Order",
