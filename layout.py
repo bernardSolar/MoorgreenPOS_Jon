@@ -175,16 +175,16 @@ def get_layout(products):
                                         [
                                             # Order Summary heading
                                             dbc.Col(
-                                                html.H5("Order Summary", 
+                                                html.H4("Order Summary",
                                                       style={"margin": "0", "paddingTop": "5px"}),
                                                 width=5,
                                             ),
                                             # Total display
                                             dbc.Col(
-                                                html.Div(
+                                                html.H4(
                                                     id="order-total-top", 
                                                     children="Total: £0.00", 
-                                                    style={"fontWeight": "bold", "paddingTop": "5px", "textAlign": "right"}
+                                                    style={"margin": "0", "paddingTop": "5px", "textAlign": "right"}
                                                 ),
                                                 width=4,
                                             ),
