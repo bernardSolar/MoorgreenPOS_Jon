@@ -3,7 +3,7 @@ from dash import callback_context
 from dash.dependencies import Input, Output, State, ALL
 import dash_bootstrap_components as dbc
 from dash import html
-from layout import create_product_button_content
+from layout import create_product_button_content, popular_product_buttons
 from db import record_product_sale
 
 
@@ -38,6 +38,16 @@ def register_callbacks(app, products):
                 updated_buttons.append(button_content)
         return updated_buttons
 
+    # Callback to refresh the popular products display
+    @app.callback(
+        Output("popular-products-container", "children"),
+        Input("refresh-trigger", "data"),
+        prevent_initial_call=True
+    )
+    def refresh_popular_products(refresh_trigger):
+        # This forces a re-fetch of popular products from the database
+        return popular_product_buttons(products)
+
     def get_product_price(category, name, event_pricing_active):
         """Helper function to get product price with event pricing adjustment"""
         for prod_name, price, sku, stock, prod_id in products[category]:
@@ -46,18 +56,20 @@ def register_callbacks(app, products):
         return None
 
     @app.callback(
-        Output("order-store", "data"),
+        [Output("order-store", "data"),
+         Output("refresh-trigger", "data")],
         [Input({"type": "product-button", "category": ALL, "name": ALL}, "n_clicks"),
          Input("pay-button", "n_clicks"),
          Input({"type": "remove-button", "index": ALL}, "n_clicks"),
          Input("event-pricing-active", "data")],
-        State("order-store", "data"),
+        [State("order-store", "data"),
+         State("refresh-trigger", "data")],
         prevent_initial_call=True,
     )
-    def update_order(prod_n_clicks, pay_n_clicks, remove_n_clicks, event_pricing_active, current_order):
+    def update_order(prod_n_clicks, pay_n_clicks, remove_n_clicks, event_pricing_active, current_order, refresh_trigger):
         ctx = callback_context
         if not ctx.triggered:
-            return current_order
+            return current_order, refresh_trigger
 
         triggered_prop = ctx.triggered[0]["prop_id"]
         triggered_id_str = triggered_prop.split(".")[0]
@@ -65,14 +77,14 @@ def register_callbacks(app, products):
         # If event pricing state changed, update all prices in current order
         if triggered_id_str == "event-pricing-active":
             if not current_order:
-                return current_order
+                return current_order, refresh_trigger
             updated_order = []
             for item in current_order:
                 new_price = get_product_price(item["category"], item["name"], event_pricing_active)
                 updated_item = item.copy()
                 updated_item["price"] = new_price
                 updated_order.append(updated_item)
-            return updated_order
+            return updated_order, refresh_trigger
 
         if triggered_id_str == "pay-button":
             # Record sales before clearing the order
@@ -84,13 +96,14 @@ def register_callbacks(app, products):
                         record_product_sale(prod_id, item.get("count", 1))
                         break
             
-            return []  # Clear the order when Pay is clicked
+            # Increment refresh trigger to update popular products
+            return [], refresh_trigger + 1  # Clear order and trigger refresh
 
         try:
             btn_id = json.loads(triggered_id_str)
         except Exception as e:
             print("Error parsing triggered id:", e)
-            return current_order
+            return current_order, refresh_trigger
 
         btn_type = btn_id.get("type", None)
         updated_order = current_order.copy()
@@ -109,7 +122,7 @@ def register_callbacks(app, products):
                     break
 
             if not product_info:
-                return updated_order
+                return updated_order, refresh_trigger
 
             # Check for duplicates and update the count
             found = False
@@ -127,7 +140,7 @@ def register_callbacks(app, products):
                     "sku": product_info["sku"],
                     "count": 1
                 })
-            return updated_order
+            return updated_order, refresh_trigger
 
         elif btn_type == "remove-button":
             remove_index = btn_id["index"]
@@ -136,9 +149,9 @@ def register_callbacks(app, products):
                     updated_order[remove_index]["count"] -= 1
                 else:
                     del updated_order[remove_index]
-            return updated_order
+            return updated_order, refresh_trigger
 
-        return updated_order
+        return updated_order, refresh_trigger
 
     @app.callback(
         [Output("order-list", "children"),
