@@ -170,11 +170,22 @@ def get_layout(products):
                             [
                                 dbc.Row(
                                     [
-                                        dbc.Col([
-                                            html.H4("Order Summary"),
-                                            html.Div(id="order-total-top", children="Total: £0.00", 
-                                                    style={"fontSize": "18px", "fontWeight": "bold"}),
-                                        ], width=8),
+                                        dbc.Col(
+                                            html.H4("Order Summary"), 
+                                            width=4
+                                        ),
+                                        dbc.Col(
+                                            html.Div(
+                                                id="order-total-top", 
+                                                children="Total: £0.00", 
+                                                style={
+                                                    "fontSize": "18px", 
+                                                    "fontWeight": "bold",
+                                                    "paddingTop": "5px"
+                                                }
+                                            ),
+                                            width=4
+                                        ),
                                         dbc.Col(
                                             dbc.Button(
                                                 "Event",
@@ -186,7 +197,8 @@ def get_layout(products):
                                             width=4
                                         )
                                     ],
-                                    className="mb-3"
+                                    className="mb-3",
+                                    align="center"
                                 ),
                                 html.Div(
                                     id="order-list",
