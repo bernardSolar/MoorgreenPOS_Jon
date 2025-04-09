@@ -120,19 +120,19 @@ def get_home_content(products, event_pricing_active=False):
         }
     )
 
-def get_layout(products):
+def get_layout(products, event_pricing_active=False):
     """Return the complete Dash layout using the products data."""
     tabs = []
     
     # Create the Home tab with popular products
-    home_tab_content = get_home_content(products)
+    home_tab_content = get_home_content(products, event_pricing_active)
     tabs.append(dcc.Tab(label="Home", value="Home", children=home_tab_content))
     
     # Create remaining category tabs
     for category in products.keys():
         if category != "Home":
             tab_content = html.Div(
-                product_buttons(products, category),
+                product_buttons(products, category, event_pricing_active),
                 style={
                     "padding": "5px",
                     "overflowY": "auto",
@@ -173,7 +173,7 @@ def get_layout(products):
     layout = dbc.Container(
         [
             dcc.Store(id="order-store", data=[]),
-            dcc.Store(id="event-pricing-active", data=False),
+            dcc.Store(id="event-pricing-active", data=event_pricing_active),  # Initialize with passed value
             dcc.Store(id="refresh-trigger", data=0),  # Added to trigger home screen refresh
             html.Div(id="dummy-output", style={"display": "none"}),  # Add dummy output for clientside callback
             clientside_script,  # Include the clientside script
@@ -214,12 +214,12 @@ def get_layout(products):
                                                 ),
                                                 width=4,
                                             ),
-                                            # Event button
+                                            # Event button with initial state
                                             dbc.Col(
                                                 dbc.Button(
                                                     "Event",
                                                     id="event-pricing-button",
-                                                    color="secondary",
+                                                    color="primary" if event_pricing_active else "secondary",
                                                     size="sm",
                                                     className="float-end"
                                                 ),
