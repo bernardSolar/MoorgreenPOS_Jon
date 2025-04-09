@@ -21,7 +21,7 @@ products = get_products()
 
 # Create the Dash app
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
-app.title = "POS System"
+app.title = "Moorgreen Clubhouse Bar"
 
 # Set config to suppress callback exceptions if requested components don't exist
 app.config.suppress_callback_exceptions = True
