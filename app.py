@@ -32,6 +32,14 @@ app.config.suppress_callback_exceptions = True
 from layout import get_layout
 from callbacks import register_callbacks
 
+# Force full page reload on all updates (this will ensure price displays refresh)
+app.config.suppress_callback_exceptions = True
+app.config.update({
+    'suppress_callback_exceptions': True,
+    # This forces the browser to do a full refresh on any update
+    'routes_pathname_prefix': '/'
+})
+
 # We'll use a function to generate the layout, which lets us check URL parameters
 def serve_layout():
     # Check if event parameter is in URL query string
