@@ -147,7 +147,6 @@ def get_layout(products, event_pricing_active=False):
             dcc.Store(id="order-store", data=[]),
             dcc.Store(id="event-pricing-active", data=event_pricing_active),  # Initialize with passed value
             dcc.Store(id="refresh-trigger", data=0),  # Added to trigger home screen refresh
-            html.Div(id="reload-trigger"),  # For reload script
             
             # Both logo and title header removed
             
