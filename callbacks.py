@@ -8,7 +8,7 @@ from db import record_product_sale
 
 
 def register_callbacks(app, products):
-    # Event pricing toggle callback
+    # Event pricing toggle callback - this is the key function that needs to be fixed
     @app.callback(
         [Output("event-pricing-active", "data"),
          Output("event-pricing-button", "color"),
@@ -21,20 +21,15 @@ def register_callbacks(app, products):
         if n_clicks is None:
             return current_state, "secondary", no_update
         
+        # Toggle the pricing state
         new_state = not current_state
         
-        # Return the updated state, button color, and a JavaScript redirect
+        # This is the key change: force a complete page reload with the new state
+        # We use a more reliable method with meta refresh to ensure all content updates
         return (
             new_state, 
             "primary" if new_state else "secondary",
-            html.Script(f"""
-                // Wait a moment for the state to update
-                setTimeout(function() {{
-                    // Store current order in localStorage if needed
-                    // Reload the page with event parameter
-                    window.location.href = window.location.pathname + '?event={1 if new_state else 0}';
-                }}, 100);
-            """)
+            html.Meta(httpEquiv="refresh", content=f"0;url=?event={1 if new_state else 0}")
         )
     
     # Callback to refresh the popular products display
