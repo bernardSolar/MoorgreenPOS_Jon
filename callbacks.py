@@ -22,30 +22,9 @@ def register_callbacks(app, products):
         new_state = not current_state
         return new_state, "primary" if new_state else "secondary"
 
-    # This is a simpler approach - update just the button content, not the entire button
-    @app.callback(
-        Output({"type": "product-button", "category": ALL, "name": ALL}, "children"),
-        Input("event-pricing-active", "data"),
-        prevent_initial_call=True
-    )
-    def update_all_button_contents(event_pricing_active):
-        updated_contents = []
-        # Create content for every product button across all categories
-        button_ids = []
-        for category in products:
-            for name, price, sku, stock, prod_id in products[category]:
-                # Create a unique identifier for this button
-                button_id = f"{category}_{name}"
-                if button_id not in button_ids:
-                    button_ids.append(button_id)
-                    content = create_product_button_content(
-                        name, price, sku, stock, event_pricing_active
-                    )
-                    updated_contents.append(content)
-        
-        # Return the updated content for all buttons
-        return updated_contents
-
+    # Remove the callback that tries to update all buttons at once
+    # This is the source of our problem
+    
     # Callback to refresh the popular products display
     @app.callback(
         Output("popular-products-container", "children"),
@@ -53,7 +32,6 @@ def register_callbacks(app, products):
         prevent_initial_call=True
     )
     def refresh_popular_products(refresh_trigger):
-        # Use the current event pricing state when refreshing
         return popular_product_buttons(products)
 
     def get_product_price(category, name, event_pricing_active):
@@ -66,9 +44,16 @@ def register_callbacks(app, products):
     @app.callback(
         [Output("order-store", "data"),
          Output("refresh-trigger", "data")],
-        [Input({"type": "product-button", "category": ALL, "name": ALL}, "n_clicks"),
+        [Input({
+            "type": "product-button", 
+            "category": ALL, 
+            "name": ALL
+        }, "n_clicks"),
          Input("pay-button", "n_clicks"),
-         Input({"type": "remove-button", "index": ALL}, "n_clicks"),
+         Input({
+             "type": "remove-button", 
+             "index": ALL
+         }, "n_clicks"),
          Input("event-pricing-active", "data")],
         [State("order-store", "data"),
          State("refresh-trigger", "data")],
