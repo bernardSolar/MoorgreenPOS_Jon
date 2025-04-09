@@ -12,11 +12,11 @@ def create_product_button_content(name, price, sku, stock, event_pricing_active=
         f"£{display_price:.2f}"
     ], style={"textAlign": "left"})
 
-def product_button(name, price, sku, stock, prod_id, category):
+def product_button(name, price, sku, stock, prod_id, category, event_pricing_active=False):
     """Create a single product button with consistent sizing."""
     button_id = {"type": "product-button", "category": category, "name": name.replace('.', '_')}
     return dbc.Button(
-        children=create_product_button_content(name, price, sku, stock),
+        children=create_product_button_content(name, price, sku, stock, event_pricing_active),
         id=button_id,
         color="primary",
         outline=True,
@@ -33,7 +33,7 @@ def product_button(name, price, sku, stock, prod_id, category):
         n_clicks=0,
     )
 
-def create_product_grid(products, category):
+def create_product_grid(products, category, event_pricing_active=False):
     """Create a grid of product buttons with 5 per row."""
     items = list(products[category])
     rows = []
@@ -47,7 +47,7 @@ def create_product_grid(products, category):
         for name, price, sku, stock, prod_id in current_row:
             buttons.append(
                 html.Div(
-                    product_button(name, price, sku, stock, prod_id, category),
+                    product_button(name, price, sku, stock, prod_id, category, event_pricing_active),
                     style={"width": "20%", "padding": "3px", "boxSizing": "border-box"},
                     className="d-inline-block"
                 )
@@ -72,15 +72,21 @@ def create_product_grid(products, category):
     
     return html.Div(rows, style={"width": "100%"})
 
-def product_buttons(products, category):
+def product_buttons(products, category, event_pricing_active=False):
     """Return a grid of product buttons for the given category."""
-    return create_product_grid(products, category)
+    return html.Div(
+        create_product_grid(products, category, event_pricing_active),
+        id={"type": "product-buttons-container", "category": category}
+    )
 
-def all_product_buttons(products):
+def all_product_buttons(products, event_pricing_active=False):
     """Return a grid of buttons for all products."""
-    return create_product_grid(products, "Home")
+    return html.Div(
+        create_product_grid(products, "Home", event_pricing_active),
+        id={"type": "product-buttons-container", "category": "Home"}
+    )
 
-def popular_product_buttons(products, refresh_trigger=None):
+def popular_product_buttons(products, refresh_trigger=None, event_pricing_active=False):
     """Return a grid of buttons for popular products."""
     # Get popular products from database
     popular_products = get_popular_products(days=90, limit=15)
@@ -92,16 +98,16 @@ def popular_product_buttons(products, refresh_trigger=None):
     # Create a dictionary with the popular products for the grid function
     popular_dict = {"Home": popular_products}
     
-    return create_product_grid(popular_dict, "Home")
+    return create_product_grid(popular_dict, "Home", event_pricing_active)
 
-def get_home_content(products, refresh_trigger=None):
+def get_home_content(products, refresh_trigger=None, event_pricing_active=False):
     """Get the content for the Home tab with popular products."""
     return html.Div(
         [
             html.H5("Most Popular Products", 
                    style={"marginBottom": "10px", "marginTop": "10px", "paddingLeft": "10px"}),
             html.Div(
-                popular_product_buttons(products),
+                popular_product_buttons(products, refresh_trigger, event_pricing_active),
                 id="popular-products-container"
             )
         ],
