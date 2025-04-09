@@ -1,9 +1,9 @@
 import json
-from dash import callback_context, dcc
+from dash import callback_context, dcc, no_update
 from dash.dependencies import Input, Output, State, ALL
 import dash_bootstrap_components as dbc
 from dash import html
-from layout import create_product_button_content, get_layout, popular_product_buttons
+from layout import create_product_button_content, popular_product_buttons
 from db import record_product_sale
 
 
@@ -11,52 +11,27 @@ def register_callbacks(app, products):
     # Event pricing toggle callback
     @app.callback(
         [Output("event-pricing-active", "data"),
-         Output("event-pricing-button", "color"),
-         Output("category-tabs", "children")],  # Add tabs to outputs to recreate them
+         Output("event-pricing-button", "color")],
         Input("event-pricing-button", "n_clicks"),
-        [State("event-pricing-active", "data"),
-         State("category-tabs", "value")],  # Current tab value
+        State("event-pricing-active", "data"),
         prevent_initial_call=True
     )
-    def toggle_event_pricing(n_clicks, current_state, current_tab):
+    def toggle_event_pricing(n_clicks, current_state):
         if n_clicks is None:
-            return current_state, "secondary", dash.no_update
-            
-        # Toggle the pricing state
+            return current_state, "secondary"
         new_state = not current_state
-        
-        # Recreate all tabs with the new pricing state
-        from layout import get_home_content, product_buttons
-        tabs = []
-        
-        # Create the Home tab with popular products
-        home_tab_content = get_home_content(products, new_state)
-        tabs.append(dcc.Tab(label="Home", value="Home", children=home_tab_content))
-        
-        # Create remaining category tabs
-        for category in products.keys():
-            if category != "Home":
-                tab_content = html.Div(
-                    product_buttons(products, category, new_state),
-                    style={
-                        "padding": "5px",
-                        "overflowY": "auto",
-                        "maxHeight": "600px",
-                        "width": "100%"
-                    }
-                )
-                tabs.append(dcc.Tab(label=category, value=category, children=tab_content))
-                
-        return new_state, "primary" if new_state else "secondary", tabs
+        return new_state, "primary" if new_state else "secondary"
     
     # Callback to refresh the popular products display
     @app.callback(
         Output("popular-products-container", "children"),
-        Input("refresh-trigger", "data"),
+        [Input("refresh-trigger", "data"),
+         Input("event-pricing-active", "data")],
         prevent_initial_call=True
     )
-    def refresh_popular_products(refresh_trigger):
-        return popular_product_buttons(products)
+    def refresh_popular_products(refresh_trigger, event_pricing_active):
+        # This forces a re-fetch of popular products from the database with current pricing
+        return popular_product_buttons(products, refresh_trigger, event_pricing_active)
 
     def get_product_price(category, name, event_pricing_active):
         """Helper function to get product price with event pricing adjustment"""
