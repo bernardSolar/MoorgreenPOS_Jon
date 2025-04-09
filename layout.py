@@ -120,27 +120,34 @@ def get_home_content(products, event_pricing_active=False):
         }
     )
 
+def get_category_content(products, category, event_pricing_active=False):
+    """Get the content for a specific category tab."""
+    return html.Div(
+        product_buttons(products, category, event_pricing_active),
+        style={
+            "padding": "5px",
+            "overflowY": "auto",
+            "maxHeight": "600px",
+            "width": "100%"
+        }
+    )
+
 def get_layout(products, event_pricing_active=False):
     """Return the complete Dash layout using the products data."""
-    tabs = []
+    # Create a separate function for each category's content to allow for tab refreshes
+    category_contents = {
+        "Home": get_home_content(products, event_pricing_active)
+    }
     
-    # Create the Home tab with popular products
-    home_tab_content = get_home_content(products, event_pricing_active)
-    tabs.append(dcc.Tab(label="Home", value="Home", children=home_tab_content))
-    
-    # Create remaining category tabs
+    # Add content for other categories
     for category in products.keys():
         if category != "Home":
-            tab_content = html.Div(
-                product_buttons(products, category, event_pricing_active),
-                style={
-                    "padding": "5px",
-                    "overflowY": "auto",
-                    "maxHeight": "600px",
-                    "width": "100%"
-                }
-            )
-            tabs.append(dcc.Tab(label=category, value=category, children=tab_content))
+            category_contents[category] = get_category_content(products, category, event_pricing_active)
+    
+    # Create tabs
+    tabs = []
+    for category, content in category_contents.items():
+        tabs.append(dcc.Tab(label=category, value=category, children=content))
 
     layout = dbc.Container(
         [
