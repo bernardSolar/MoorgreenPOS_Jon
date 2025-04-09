@@ -8,29 +8,41 @@ from db import record_product_sale
 
 
 def register_callbacks(app, products):
-    # Event pricing toggle callback - this is the key function that needs to be fixed
+    # Event pricing toggle callback with direct JavaScript approach
     @app.callback(
         [Output("event-pricing-active", "data"),
-         Output("event-pricing-button", "color"),
-         Output("reload-trigger", "children")],  # Added to trigger page reload
+         Output("event-pricing-button", "color")],
         Input("event-pricing-button", "n_clicks"),
         State("event-pricing-active", "data"),
         prevent_initial_call=True
     )
     def toggle_event_pricing(n_clicks, current_state):
         if n_clicks is None:
-            return current_state, "secondary", no_update
+            return current_state, "secondary"
         
         # Toggle the pricing state
         new_state = not current_state
         
-        # This is the key change: force a complete page reload with the new state
-        # We use a more reliable method with meta refresh to ensure all content updates
-        return (
-            new_state, 
-            "primary" if new_state else "secondary",
-            html.Meta(httpEquiv="refresh", content=f"0;url=?event={1 if new_state else 0}")
-        )
+        # Just update the state and let the regular callback system handle updates
+        return new_state, "primary" if new_state else "secondary"
+    
+    # Callback to update all product button content when event pricing changes
+    @app.callback(
+        Output({"type": "product-button", "category": ALL, "name": ALL}, "children"),
+        Input("event-pricing-active", "data"),
+        prevent_initial_call=True
+    )
+    def update_all_button_contents(event_pricing_active):
+        # Create updated content for all buttons
+        updated_buttons = []
+        for category in products:
+            for name, price, sku, stock, prod_id in products[category]:
+                button_content = create_product_button_content(
+                    name, price, sku, stock, event_pricing_active
+                )
+                updated_buttons.append(button_content)
+        
+        return updated_buttons
     
     # Callback to refresh the popular products display
     @app.callback(
