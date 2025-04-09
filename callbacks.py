@@ -1,13 +1,23 @@
 import json
-from dash import callback_context, dcc, no_update
-from dash.dependencies import Input, Output, State, ALL
+from dash import callback_context, dcc, no_update, html
+from dash.dependencies import Input, Output, State, ALL, ClientsideFunction
 import dash_bootstrap_components as dbc
-from dash import html
 from layout import create_product_button_content, popular_product_buttons
 from db import record_product_sale
 
 
 def register_callbacks(app, products):
+    # Register a client-side callback to handle page reload on event pricing change
+    app.clientside_callback(
+        ClientsideFunction(
+            namespace='clientside',
+            function_name='refreshPageOnEvent'
+        ),
+        Output('dummy-output', 'children'),
+        Input('event-pricing-active', 'data'),
+        prevent_initial_call=True
+    )
+
     # Event pricing toggle callback
     @app.callback(
         [Output("event-pricing-active", "data"),
