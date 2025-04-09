@@ -74,17 +74,11 @@ def create_product_grid(products, category, event_pricing_active=False):
 
 def product_buttons(products, category, event_pricing_active=False):
     """Return a grid of product buttons for the given category."""
-    return html.Div(
-        create_product_grid(products, category, event_pricing_active),
-        id={"type": "product-buttons-container", "category": category}
-    )
+    return create_product_grid(products, category, event_pricing_active)
 
 def all_product_buttons(products, event_pricing_active=False):
     """Return a grid of buttons for all products."""
-    return html.Div(
-        create_product_grid(products, "Home", event_pricing_active),
-        id={"type": "product-buttons-container", "category": "Home"}
-    )
+    return create_product_grid(products, "Home", event_pricing_active)
 
 def popular_product_buttons(products, refresh_trigger=None, event_pricing_active=False):
     """Return a grid of buttons for popular products."""
