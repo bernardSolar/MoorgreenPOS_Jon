@@ -1,36 +1,41 @@
 import json
-from dash import callback_context, dcc, no_update, html
-from dash.dependencies import Input, Output, State, ALL, ClientsideFunction
+from dash import callback_context, dcc, no_update
+from dash.dependencies import Input, Output, State, ALL
 import dash_bootstrap_components as dbc
+from dash import html
 from layout import create_product_button_content, popular_product_buttons
 from db import record_product_sale
 
 
 def register_callbacks(app, products):
-    # Register a client-side callback to handle page reload on event pricing change
-    app.clientside_callback(
-        ClientsideFunction(
-            namespace='clientside',
-            function_name='refreshPageOnEvent'
-        ),
-        Output('dummy-output', 'children'),
-        Input('event-pricing-active', 'data'),
-        prevent_initial_call=True
-    )
-
     # Event pricing toggle callback
     @app.callback(
         [Output("event-pricing-active", "data"),
-         Output("event-pricing-button", "color")],
+         Output("event-pricing-button", "color"),
+         Output("reload-trigger", "children")],  # Added to trigger page reload
         Input("event-pricing-button", "n_clicks"),
         State("event-pricing-active", "data"),
         prevent_initial_call=True
     )
     def toggle_event_pricing(n_clicks, current_state):
         if n_clicks is None:
-            return current_state, "secondary"
+            return current_state, "secondary", no_update
+        
         new_state = not current_state
-        return new_state, "primary" if new_state else "secondary"
+        
+        # Return the updated state, button color, and a JavaScript redirect
+        return (
+            new_state, 
+            "primary" if new_state else "secondary",
+            html.Script(f"""
+                // Wait a moment for the state to update
+                setTimeout(function() {{
+                    // Store current order in localStorage if needed
+                    // Reload the page with event parameter
+                    window.location.href = window.location.pathname + '?event={1 if new_state else 0}';
+                }}, 100);
+            """)
+        )
     
     # Callback to refresh the popular products display
     @app.callback(
