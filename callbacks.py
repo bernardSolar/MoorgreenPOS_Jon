@@ -22,30 +22,39 @@ def register_callbacks(app, products):
         new_state = not current_state
         return new_state, "primary" if new_state else "secondary"
 
-    # Modified callback to update product button contents individually by category
-    # This avoids the ALL/ALL pattern matching issue
-    for category in products:
-        # Register a separate callback for each category
-        @app.callback(
-            Output({"type": "product-buttons-container", "category": category}, "children"),
-            Input("event-pricing-active", "data"),
-            prevent_initial_call=True
-        )
-        def update_category_buttons(event_pricing_active, category=category):
-            from layout import create_product_grid
-            # Re-create the entire product grid for this category with updated prices
-            return create_product_grid(products, category, event_pricing_active)
+    # This is a simpler approach - update just the button content, not the entire button
+    @app.callback(
+        Output({"type": "product-button", "category": ALL, "name": ALL}, "children"),
+        Input("event-pricing-active", "data"),
+        prevent_initial_call=True
+    )
+    def update_all_button_contents(event_pricing_active):
+        updated_contents = []
+        # Create content for every product button across all categories
+        button_ids = []
+        for category in products:
+            for name, price, sku, stock, prod_id in products[category]:
+                # Create a unique identifier for this button
+                button_id = f"{category}_{name}"
+                if button_id not in button_ids:
+                    button_ids.append(button_id)
+                    content = create_product_button_content(
+                        name, price, sku, stock, event_pricing_active
+                    )
+                    updated_contents.append(content)
+        
+        # Return the updated content for all buttons
+        return updated_contents
 
     # Callback to refresh the popular products display
     @app.callback(
         Output("popular-products-container", "children"),
-        [Input("refresh-trigger", "data"),
-         Input("event-pricing-active", "data")],
+        Input("refresh-trigger", "data"),
         prevent_initial_call=True
     )
-    def refresh_popular_products(refresh_trigger, event_pricing_active):
-        # This forces a re-fetch of popular products from the database with current pricing
-        return popular_product_buttons(products, refresh_trigger, event_pricing_active)
+    def refresh_popular_products(refresh_trigger):
+        # Use the current event pricing state when refreshing
+        return popular_product_buttons(products)
 
     def get_product_price(category, name, event_pricing_active):
         """Helper function to get product price with event pricing adjustment"""
@@ -73,7 +82,7 @@ def register_callbacks(app, products):
         triggered_prop = ctx.triggered[0]["prop_id"]
         triggered_id_str = triggered_prop.split(".")[0]
 
-        # If event pricing state changed, update all prices in current order
+        # If event pricing state changed, only update prices in the current order
         if triggered_id_str == "event-pricing-active":
             if not current_order:
                 return current_order, refresh_trigger
