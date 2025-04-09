@@ -11,47 +11,32 @@ def register_callbacks(app, products):
     # Event pricing toggle callback with direct JavaScript approach
     @app.callback(
         [Output("event-pricing-active", "data"),
-         Output("event-pricing-button", "color")],
+         Output("event-pricing-button", "color"),
+         Output("category-tabs", "value")],  # We'll force a tab change to trigger UI refresh
         Input("event-pricing-button", "n_clicks"),
-        State("event-pricing-active", "data"),
+        [State("event-pricing-active", "data"),
+         State("category-tabs", "value")],
         prevent_initial_call=True
     )
-    def toggle_event_pricing(n_clicks, current_state):
+    def toggle_event_pricing(n_clicks, current_state, current_tab):
         if n_clicks is None:
-            return current_state, "secondary"
+            return current_state, "secondary", no_update
         
         # Toggle the pricing state
         new_state = not current_state
         
-        # Just update the state and let the regular callback system handle updates
-        return new_state, "primary" if new_state else "secondary"
-    
-    # Callback to update all product button content when event pricing changes
-    @app.callback(
-        Output({"type": "product-button", "category": ALL, "name": ALL}, "children"),
-        Input("event-pricing-active", "data"),
-        prevent_initial_call=True
-    )
-    def update_all_button_contents(event_pricing_active):
-        # Create updated content for all buttons
-        updated_buttons = []
-        for category in products:
-            for name, price, sku, stock, prod_id in products[category]:
-                button_content = create_product_button_content(
-                    name, price, sku, stock, event_pricing_active
-                )
-                updated_buttons.append(button_content)
-        
-        return updated_buttons
+        # Force a tab change to refresh the view (change to same tab)
+        return new_state, "primary" if new_state else "secondary", current_tab
     
     # Callback to refresh the popular products display
     @app.callback(
         Output("popular-products-container", "children"),
         [Input("refresh-trigger", "data"),
-         Input("event-pricing-active", "data")],
+         Input("event-pricing-active", "data"),
+         Input("category-tabs", "value")],  # Add tab change to refresh
         prevent_initial_call=True
     )
-    def refresh_popular_products(refresh_trigger, event_pricing_active):
+    def refresh_popular_products(refresh_trigger, event_pricing_active, tab_value):
         # This forces a re-fetch of popular products from the database with current pricing
         return popular_product_buttons(products, refresh_trigger, event_pricing_active)
 
