@@ -140,20 +140,7 @@ def get_layout(products):
             dcc.Store(id="order-store", data=[]),
             dcc.Store(id="event-pricing-active", data=False),
             dcc.Store(id="refresh-trigger", data=0),  # Added to trigger home screen refresh
-            dbc.Row(
-                dbc.Col(
-                    html.Img(
-                        src="/assets/logo.jpg",
-                        style={
-                            "height": "60px",
-                            "marginBottom": "15px",
-                            "marginTop": "15px"
-                        }
-                    ),
-                    width={"size": 6, "offset": 0}
-                ),
-                className="mb-3"
-            ),
+            # Logo row removed
             dbc.Row(
                 [
                     dbc.Col(
@@ -239,7 +226,7 @@ def get_layout(products):
                     ),
                 ],
                 align="start",
-                style={"marginTop": "20px"}
+                style={"marginTop": "5px"}
             ),
         ],
         fluid=True
