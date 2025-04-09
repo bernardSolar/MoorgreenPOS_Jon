@@ -14,9 +14,16 @@ def create_product_button_content(name, price, sku, stock, event_pricing_active=
 
 def product_button(name, price, sku, stock, prod_id, category, event_pricing_active=False):
     """Create a single product button with consistent sizing."""
+    # Apply event pricing to the actual price here
+    display_price = price * 1.1 if event_pricing_active else price
     button_id = {"type": "product-button", "category": category, "name": name.replace('.', '_')}
+    
     return dbc.Button(
-        children=create_product_button_content(name, price, sku, stock, event_pricing_active),
+        children=html.Div([
+            html.Strong(name),
+            html.Br(),
+            f"£{display_price:.2f}"
+        ], style={"textAlign": "left"}),
         id=button_id,
         color="primary",
         outline=True,
@@ -94,14 +101,14 @@ def popular_product_buttons(products, refresh_trigger=None, event_pricing_active
     
     return create_product_grid(popular_dict, "Home", event_pricing_active)
 
-def get_home_content(products, refresh_trigger=None, event_pricing_active=False):
+def get_home_content(products, event_pricing_active=False):
     """Get the content for the Home tab with popular products."""
     return html.Div(
         [
             html.H5("Most Popular Products", 
                    style={"marginBottom": "10px", "marginTop": "10px", "paddingLeft": "10px"}),
             html.Div(
-                popular_product_buttons(products, refresh_trigger, event_pricing_active),
+                popular_product_buttons(products, None, event_pricing_active),
                 id="popular-products-container"
             )
         ],
