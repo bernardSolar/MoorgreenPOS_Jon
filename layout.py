@@ -140,7 +140,24 @@ def get_layout(products):
             dcc.Store(id="order-store", data=[]),
             dcc.Store(id="event-pricing-active", data=False),
             dcc.Store(id="refresh-trigger", data=0),  # Added to trigger home screen refresh
-            # Logo row removed
+            
+            # Title header in place of logo
+            dbc.Row(
+                dbc.Col(
+                    html.H1(
+                        "Moorgreen Clubhouse Bar",
+                        style={
+                            "color": "#2E8B57",  # Forest green color
+                            "marginBottom": "15px",
+                            "marginTop": "10px",
+                            "textAlign": "left"
+                        }
+                    ),
+                    width={"size": 12}
+                ),
+                className="mb-2"
+            ),
+            
             dbc.Row(
                 [
                     dbc.Col(
