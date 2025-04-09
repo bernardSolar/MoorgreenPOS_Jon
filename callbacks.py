@@ -1,44 +1,56 @@
 import json
-from dash import callback_context, dcc, no_update
-from dash.dependencies import Input, Output, State, ALL
+from dash import callback_context, dcc, no_update, html
+from dash.dependencies import Input, Output, State, ALL, MATCH
 import dash_bootstrap_components as dbc
-from dash import html
-from layout import create_product_button_content, popular_product_buttons
-from db import record_product_sale
+from layout import create_product_button_content, popular_product_buttons, get_home_content, get_category_content
+from db import record_product_sale, get_products
 
 
 def register_callbacks(app, products):
-    # Event pricing toggle callback with direct JavaScript approach
+    # Event pricing toggle callback
     @app.callback(
         [Output("event-pricing-active", "data"),
-         Output("event-pricing-button", "color"),
-         Output("category-tabs", "value")],  # We'll force a tab change to trigger UI refresh
+         Output("event-pricing-button", "color")],
         Input("event-pricing-button", "n_clicks"),
-        [State("event-pricing-active", "data"),
-         State("category-tabs", "value")],
+        State("event-pricing-active", "data"),
         prevent_initial_call=True
     )
-    def toggle_event_pricing(n_clicks, current_state, current_tab):
+    def toggle_event_pricing(n_clicks, current_state):
         if n_clicks is None:
-            return current_state, "secondary", no_update
+            return current_state, "secondary"
         
         # Toggle the pricing state
         new_state = not current_state
         
-        # Force a tab change to refresh the view (change to same tab)
-        return new_state, "primary" if new_state else "secondary", current_tab
+        return new_state, "primary" if new_state else "secondary"
     
-    # Callback to refresh the popular products display
+    # Generate callbacks for each tab to update content when event pricing changes
     @app.callback(
-        Output("popular-products-container", "children"),
-        [Input("refresh-trigger", "data"),
-         Input("event-pricing-active", "data"),
-         Input("category-tabs", "value")],  # Add tab change to refresh
+        Output("category-tabs", "children"),
+        [Input("event-pricing-active", "data"),
+         Input("refresh-trigger", "data")],
         prevent_initial_call=True
     )
-    def refresh_popular_products(refresh_trigger, event_pricing_active, tab_value):
-        # This forces a re-fetch of popular products from the database with current pricing
-        return popular_product_buttons(products, refresh_trigger, event_pricing_active)
+    def update_all_tabs(event_pricing_active, refresh_trigger):
+        """Update all tabs with the current event pricing state"""
+        # Create tabs with the current event pricing
+        category_contents = {
+            "Home": get_home_content(products, event_pricing_active)
+        }
+        
+        # Add content for other categories
+        for category in products.keys():
+            if category != "Home":
+                category_contents[category] = get_category_content(
+                    products, category, event_pricing_active
+                )
+        
+        # Create tabs
+        tabs = []
+        for category, content in category_contents.items():
+            tabs.append(dcc.Tab(label=category, value=category, children=content))
+            
+        return tabs
 
     def get_product_price(category, name, event_pricing_active):
         """Helper function to get product price with event pricing adjustment"""
@@ -83,7 +95,7 @@ def register_callbacks(app, products):
                 updated_item = item.copy()
                 updated_item["price"] = new_price
                 updated_order.append(updated_item)
-            return updated_order, refresh_trigger
+            return updated_order, refresh_trigger + 1  # Trigger refresh
 
         if triggered_id_str == "pay-button":
             # Record sales before clearing the order
