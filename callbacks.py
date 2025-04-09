@@ -1,9 +1,9 @@
 import json
-from dash import callback_context
+from dash import callback_context, dcc
 from dash.dependencies import Input, Output, State, ALL
 import dash_bootstrap_components as dbc
 from dash import html
-from layout import create_product_button_content, popular_product_buttons
+from layout import create_product_button_content, get_layout, popular_product_buttons
 from db import record_product_sale
 
 
@@ -11,19 +11,43 @@ def register_callbacks(app, products):
     # Event pricing toggle callback
     @app.callback(
         [Output("event-pricing-active", "data"),
-         Output("event-pricing-button", "color")],
+         Output("event-pricing-button", "color"),
+         Output("category-tabs", "children")],  # Add tabs to outputs to recreate them
         Input("event-pricing-button", "n_clicks"),
-        State("event-pricing-active", "data"),
+        [State("event-pricing-active", "data"),
+         State("category-tabs", "value")],  # Current tab value
         prevent_initial_call=True
     )
-    def toggle_event_pricing(n_clicks, current_state):
+    def toggle_event_pricing(n_clicks, current_state, current_tab):
         if n_clicks is None:
-            return current_state, "secondary"
+            return current_state, "secondary", dash.no_update
+            
+        # Toggle the pricing state
         new_state = not current_state
-        return new_state, "primary" if new_state else "secondary"
-
-    # Remove the callback that tries to update all buttons at once
-    # This is the source of our problem
+        
+        # Recreate all tabs with the new pricing state
+        from layout import get_home_content, product_buttons
+        tabs = []
+        
+        # Create the Home tab with popular products
+        home_tab_content = get_home_content(products, new_state)
+        tabs.append(dcc.Tab(label="Home", value="Home", children=home_tab_content))
+        
+        # Create remaining category tabs
+        for category in products.keys():
+            if category != "Home":
+                tab_content = html.Div(
+                    product_buttons(products, category, new_state),
+                    style={
+                        "padding": "5px",
+                        "overflowY": "auto",
+                        "maxHeight": "600px",
+                        "width": "100%"
+                    }
+                )
+                tabs.append(dcc.Tab(label=category, value=category, children=tab_content))
+                
+        return new_state, "primary" if new_state else "secondary", tabs
     
     # Callback to refresh the popular products display
     @app.callback(
