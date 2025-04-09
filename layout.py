@@ -142,11 +142,41 @@ def get_layout(products):
             )
             tabs.append(dcc.Tab(label=category, value=category, children=tab_content))
 
+    # Add JavaScript for client-side callback
+    clientside_script = html.Script("""
+    window.dash_clientside = Object.assign({}, window.dash_clientside, {
+        clientside: {
+            refreshPageOnEvent: function(eventPricingActive) {
+                // Only reload on toggle, not on first load
+                if (window.hasOwnProperty('lastEventPricing') && 
+                    window.lastEventPricing !== eventPricingActive) {
+                    // Store current cart in localStorage
+                    var orderStore = document.getElementById('order-store');
+                    if (orderStore && orderStore.dataset && orderStore.dataset.dash_props) {
+                        var orderData = JSON.parse(orderStore.dataset.dash_props).data;
+                        localStorage.setItem('orderData', JSON.stringify(orderData));
+                    }
+                    
+                    // Reload the page with a query parameter to indicate event pricing state
+                    window.location.href = window.location.pathname + '?event=' + (eventPricingActive ? '1' : '0');
+                    return '';
+                }
+                
+                // Store current state
+                window.lastEventPricing = eventPricingActive;
+                return '';
+            }
+        }
+    });
+    """)
+
     layout = dbc.Container(
         [
             dcc.Store(id="order-store", data=[]),
             dcc.Store(id="event-pricing-active", data=False),
             dcc.Store(id="refresh-trigger", data=0),  # Added to trigger home screen refresh
+            html.Div(id="dummy-output", style={"display": "none"}),  # Add dummy output for clientside callback
+            clientside_script,  # Include the clientside script
             
             # Both logo and title header removed
             
