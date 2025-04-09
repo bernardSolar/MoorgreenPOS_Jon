@@ -22,31 +22,30 @@ def register_callbacks(app, products):
         new_state = not current_state
         return new_state, "primary" if new_state else "secondary"
 
-    # New callback to update all product button contents
-    @app.callback(
-        Output({"type": "product-button", "category": ALL, "name": ALL}, "children"),
-        Input("event-pricing-active", "data"),
-        prevent_initial_call=True
-    )
-    def update_all_button_prices(event_pricing_active):
-        updated_buttons = []
-        for category in products:
-            for name, price, sku, stock, prod_id in products[category]:
-                button_content = create_product_button_content(
-                    name, price, sku, stock, event_pricing_active
-                )
-                updated_buttons.append(button_content)
-        return updated_buttons
+    # Modified callback to update product button contents individually by category
+    # This avoids the ALL/ALL pattern matching issue
+    for category in products:
+        # Register a separate callback for each category
+        @app.callback(
+            Output({"type": "product-buttons-container", "category": category}, "children"),
+            Input("event-pricing-active", "data"),
+            prevent_initial_call=True
+        )
+        def update_category_buttons(event_pricing_active, category=category):
+            from layout import create_product_grid
+            # Re-create the entire product grid for this category with updated prices
+            return create_product_grid(products, category, event_pricing_active)
 
     # Callback to refresh the popular products display
     @app.callback(
         Output("popular-products-container", "children"),
-        Input("refresh-trigger", "data"),
+        [Input("refresh-trigger", "data"),
+         Input("event-pricing-active", "data")],
         prevent_initial_call=True
     )
-    def refresh_popular_products(refresh_trigger):
-        # This forces a re-fetch of popular products from the database
-        return popular_product_buttons(products)
+    def refresh_popular_products(refresh_trigger, event_pricing_active):
+        # This forces a re-fetch of popular products from the database with current pricing
+        return popular_product_buttons(products, refresh_trigger, event_pricing_active)
 
     def get_product_price(category, name, event_pricing_active):
         """Helper function to get product price with event pricing adjustment"""
