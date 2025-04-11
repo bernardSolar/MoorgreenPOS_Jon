@@ -144,10 +144,30 @@ def get_layout(products, event_pricing_active=False):
         if category != "Home":
             category_contents[category] = get_category_content(products, category, event_pricing_active)
     
-    # Create tabs
+    # Custom tab style with smaller black font
+    tab_style = {
+        'padding': '8px',
+        'fontWeight': 'normal',
+        'fontSize': '12px',  # Smaller font size
+        'color': 'black',    # Black text
+        'whiteSpace': 'nowrap'  # Ensures text stays on one line
+    }
+    
+    # Create tabs with custom styling
     tabs = []
     for category, content in category_contents.items():
-        tabs.append(dcc.Tab(label=category, value=category, children=content))
+        tabs.append(dcc.Tab(
+            label=category,
+            value=category,
+            children=content,
+            style=tab_style,  # Apply custom style to each tab
+            selected_style={
+                **tab_style,  # Keep the same base style
+                'borderTop': '1px solid #d6d6d6',
+                'borderBottom': '1px solid white',
+                'fontWeight': 'bold'
+            }
+        ))
 
     # Create event button independently to control position
     event_button = dbc.Button(
@@ -186,6 +206,9 @@ def get_layout(products, event_pricing_active=False):
                             id="category-tabs",
                             value="Home",
                             children=tabs,
+                            # Additional tab container styling
+                            style={'height': '44px'},  # Control overall tab bar height
+                            content_style={'padding': '0px'}  # Remove content padding
                         ),
                         width=8,
                         className="pe-1"
