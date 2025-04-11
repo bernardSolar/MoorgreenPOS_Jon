@@ -7,9 +7,9 @@ def create_product_button_content(name, price, sku, stock, event_pricing_active=
     display_price = price * 1.1 if event_pricing_active else price
     # No break between name and price - all in one div with left alignment
     return html.Div([
-        html.Strong(name),
+        html.Strong(name, style={"fontSize": "14px", "color": "black"}),
         html.Br(),
-        f"£{display_price:.2f}"
+        html.Span(f"£{display_price:.2f}", style={"fontSize": "14px", "color": "black"})
     ], style={"textAlign": "left"})
 
 def product_button(name, price, sku, stock, prod_id, category, event_pricing_active=False):
@@ -20,34 +20,36 @@ def product_button(name, price, sku, stock, prod_id, category, event_pricing_act
     
     return dbc.Button(
         children=html.Div([
-            html.Strong(name),
+            html.Strong(name, style={"fontSize": "14px", "color": "black"}),
             html.Br(),
-            f"£{display_price:.2f}"
+            html.Span(f"£{display_price:.2f}", style={"fontSize": "14px", "color": "black"})
         ], style={"textAlign": "left"}),
         id=button_id,
-        color="primary",
+        color="light",
         outline=True,
         style={
-            "height": "100px",
+            "height": "90px",  # Slightly smaller height for the 6-button layout
             "whiteSpace": "normal",
-            "padding": "10px",
+            "padding": "8px",  # Reduced padding
             "display": "flex",
             "flexDirection": "column",
             "justifyContent": "center",
             "alignItems": "flex-start",  # Left alignment
-            "width": "100%"
+            "width": "100%",
+            "borderColor": "#ccc",
+            "backgroundColor": "#f8f9fa"
         },
         n_clicks=0,
     )
 
 def create_product_grid(products, category, event_pricing_active=False):
-    """Create a grid of product buttons with 5 per row."""
+    """Create a grid of product buttons with 6 per row."""
     items = list(products[category])
     rows = []
     
-    # Process 5 items per row
-    for i in range(0, len(items), 5):
-        current_row = items[i:i+5]
+    # Process 6 items per row (changed from 5)
+    for i in range(0, len(items), 6):
+        current_row = items[i:i+6]
         buttons = []
         
         # Create button for each product
@@ -55,16 +57,16 @@ def create_product_grid(products, category, event_pricing_active=False):
             buttons.append(
                 html.Div(
                     product_button(name, price, sku, stock, prod_id, category, event_pricing_active),
-                    style={"width": "20%", "padding": "3px", "boxSizing": "border-box"},
+                    style={"width": "16.666%", "padding": "2px", "boxSizing": "border-box"},  # Changed from 20% to 16.666%
                     className="d-inline-block"
                 )
             )
             
         # Add empty placeholders if row isn't complete
-        for _ in range(5 - len(current_row)):
+        for _ in range(6 - len(current_row)):  # Changed from 5 to 6
             buttons.append(
                 html.Div(
-                    style={"width": "20%", "padding": "3px", "boxSizing": "border-box"},
+                    style={"width": "16.666%", "padding": "2px", "boxSizing": "border-box"},  # Changed from 20% to 16.666%
                     className="d-inline-block"
                 )
             )
