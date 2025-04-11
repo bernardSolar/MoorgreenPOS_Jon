@@ -153,8 +153,14 @@ def get_layout(products, event_pricing_active=False):
     event_button = dbc.Button(
         "Event",
         id="event-pricing-button",
-        color="primary" if event_pricing_active else "secondary",
-        style={"width": "120px"}
+        # Use magenta color when active instead of primary (blue)
+        color="#e83e8c" if event_pricing_active else "secondary",
+        style={
+            "width": "120px",
+            # Additional custom styling for the button
+            "backgroundColor": "#e83e8c" if event_pricing_active else "#6c757d",
+            "borderColor": "#e83e8c" if event_pricing_active else "#6c757d"
+        }
     )
 
     # Create order placement button
