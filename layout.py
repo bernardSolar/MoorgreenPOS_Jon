@@ -221,34 +221,34 @@ def get_layout(products, event_pricing_active=False):
                                 ], style={"width": "100%"}),
                                 
                                 html.H4(id="order-total", children="Total: £0.00", style={"marginTop": "10px"}),
-                                # Added row for Event and Place Order buttons
-                                dbc.Row(
-                                    [
-                                        # Event button moved to bottom left
-                                        dbc.Col(
-                                            dbc.Button(
-                                                "Event",
-                                                id="event-pricing-button",
-                                                color="primary" if event_pricing_active else "secondary",
-                                                style={"width": "100%"}
-                                            ),
-                                            width=4,
+                                
+                                # Separate buttons - Event on far left, Place Order on right
+                                html.Div([
+                                    # Event button (left aligned)
+                                    html.Div(
+                                        dbc.Button(
+                                            "Event",
+                                            id="event-pricing-button",
+                                            color="primary" if event_pricing_active else "secondary",
+                                            style={"width": "120px"}  # Fixed width instead of percentage
                                         ),
-                                        # Spacer column
-                                        dbc.Col(width=2),
-                                        # Place Order button
-                                        dbc.Col(
-                                            dbc.Button(
-                                                "Place Order",
-                                                id="pay-button",
-                                                color="success",
-                                                style={"width": "100%"}
-                                            ),
-                                            width=6,
+                                        style={"float": "left", "marginTop": "10px"}
+                                    ),
+                                    
+                                    # Place Order button (right aligned)
+                                    html.Div(
+                                        dbc.Button(
+                                            "Place Order",
+                                            id="pay-button",
+                                            color="success",
+                                            style={"width": "100%"}
                                         ),
-                                    ],
-                                    className="mt-2"
-                                ),
+                                        style={"float": "right", "marginTop": "10px", "width": "60%"}
+                                    ),
+                                    
+                                    # Clear float
+                                    html.Div(style={"clear": "both"})
+                                ]),
                             ]
                         ),
                         width=4,
