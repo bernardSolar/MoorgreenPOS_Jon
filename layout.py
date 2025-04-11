@@ -271,8 +271,9 @@ def get_layout(products, event_pricing_active=False):
                                             "height": "400px",
                                             "border": "1px solid #ccc",
                                             "borderRadius": "0 0 4px 4px",
-                                            "padding": "6px",  # Reduced padding (was 10px)
-                                            "overflowY": "auto"
+                                            "padding": "0px",  # Remove container padding, we'll add padding to items
+                                            "overflowY": "auto",
+                                            "backgroundColor": "#ffffff"
                                         }
                                     )
                                 ], style={"width": "100%"}),
