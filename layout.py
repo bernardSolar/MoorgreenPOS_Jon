@@ -191,17 +191,9 @@ def get_layout(products, event_pricing_active=False):
                                                 ),
                                                 width=4,
                                             ),
-                                            # Event button with initial state
-                                            dbc.Col(
-                                                dbc.Button(
-                                                    "Event",
-                                                    id="event-pricing-button",
-                                                    color="primary" if event_pricing_active else "secondary",
-                                                    size="sm",
-                                                    className="float-end"
-                                                ),
-                                                width=3,
-                                            ),
+                                            # Event button removed from header
+                                            dbc.Col(width=3),
+
                                         ],
                                         className="py-1 align-items-center g-0",
                                         style={
@@ -229,11 +221,33 @@ def get_layout(products, event_pricing_active=False):
                                 ], style={"width": "100%"}),
                                 
                                 html.H4(id="order-total", children="Total: £0.00", style={"marginTop": "10px"}),
-                                dbc.Button(
-                                    "Place Order",
-                                    id="pay-button",
-                                    color="success",
-                                    style={"marginTop": "10px", "width": "100%"}
+                                # Added row for Event and Place Order buttons
+                                dbc.Row(
+                                    [
+                                        # Event button moved to bottom left
+                                        dbc.Col(
+                                            dbc.Button(
+                                                "Event",
+                                                id="event-pricing-button",
+                                                color="primary" if event_pricing_active else "secondary",
+                                                style={"width": "100%"}
+                                            ),
+                                            width=4,
+                                        ),
+                                        # Spacer column
+                                        dbc.Col(width=2),
+                                        # Place Order button
+                                        dbc.Col(
+                                            dbc.Button(
+                                                "Place Order",
+                                                id="pay-button",
+                                                color="success",
+                                                style={"width": "100%"}
+                                            ),
+                                            width=6,
+                                        ),
+                                    ],
+                                    className="mt-2"
                                 ),
                             ]
                         ),
