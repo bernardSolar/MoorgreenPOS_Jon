@@ -10,19 +10,30 @@ def register_callbacks(app, products):
     # Event pricing toggle callback
     @app.callback(
         [Output("event-pricing-active", "data"),
-         Output("event-pricing-button", "color")],
+         Output("event-pricing-button", "color"),
+         Output("event-pricing-button", "style")],
         Input("event-pricing-button", "n_clicks"),
-        State("event-pricing-active", "data"),
+        [State("event-pricing-active", "data"),
+         State("event-pricing-button", "style")],
         prevent_initial_call=True
     )
-    def toggle_event_pricing(n_clicks, current_state):
+    def toggle_event_pricing(n_clicks, current_state, current_style):
         if n_clicks is None:
-            return current_state, "secondary"
+            return current_state, "secondary", current_style
         
         # Toggle the pricing state
         new_state = not current_state
         
-        return new_state, "primary" if new_state else "secondary"
+        # Update button style with the right color
+        magenta_color = "#e83e8c"
+        gray_color = "#6c757d"
+        
+        new_style = current_style.copy() if current_style else {"width": "120px"}
+        new_style["backgroundColor"] = magenta_color if new_state else gray_color
+        new_style["borderColor"] = magenta_color if new_state else gray_color
+        
+        # Return magenta color for active state, gray for inactive
+        return new_state, magenta_color if new_state else "secondary", new_style
     
     # Generate callbacks for each tab to update content when event pricing changes
     @app.callback(
