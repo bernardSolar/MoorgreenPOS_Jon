@@ -203,6 +203,7 @@ def get_layout(products, event_pricing_active=False):
             dbc.Row(
                 [
                     # Left side - product tabs
+                    # Increase product area width from 8 to 9 columns (out of 12 total)
                     dbc.Col(
                         dcc.Tabs(
                             id="category-tabs",
@@ -212,11 +213,12 @@ def get_layout(products, event_pricing_active=False):
                             style={'height': '44px'},  # Control overall tab bar height
                             content_style={'padding': '0px'}  # Remove content padding
                         ),
-                        width=8,
+                        width=9,  # Changed from 8 to 9 (out of 12)
                         className="pe-1"
                     ),
                     
                     # Right side - order summary
+                    # Reduce order summary width from 4 to 3 columns (out of 12 total)
                     dbc.Col(
                         html.Div(
                             [
@@ -228,17 +230,26 @@ def get_layout(products, event_pricing_active=False):
                                             # Order Summary heading
                                             dbc.Col(
                                                 html.H4("Order Summary",
-                                                      style={"margin": "0", "paddingTop": "5px"}),
-                                                width=5,
+                                                      style={
+                                                          "margin": "0", 
+                                                          "paddingTop": "5px",
+                                                          "fontSize": "16px"  # Slightly smaller heading
+                                                      }),
+                                                width=6,
                                             ),
                                             # Total display
                                             dbc.Col(
                                                 html.H4(
                                                     id="order-total-top", 
                                                     children="Total: £0.00", 
-                                                    style={"margin": "0", "paddingTop": "5px", "textAlign": "right"}
+                                                    style={
+                                                        "margin": "0", 
+                                                        "paddingTop": "5px", 
+                                                        "textAlign": "right",
+                                                        "fontSize": "16px"  # Slightly smaller heading
+                                                    }
                                                 ),
-                                                width=7,
+                                                width=6,
                                             ),
                                         ],
                                         className="py-1 align-items-center g-0",
@@ -260,14 +271,21 @@ def get_layout(products, event_pricing_active=False):
                                             "height": "400px",
                                             "border": "1px solid #ccc",
                                             "borderRadius": "0 0 4px 4px",
-                                            "padding": "10px",
+                                            "padding": "6px",  # Reduced padding (was 10px)
                                             "overflowY": "auto"
                                         }
                                     )
                                 ], style={"width": "100%"}),
                                 
                                 # Order total
-                                html.H4(id="order-total", children="Total: £0.00", style={"marginTop": "10px"}),
+                                html.H4(
+                                    id="order-total", 
+                                    children="Total: £0.00", 
+                                    style={
+                                        "marginTop": "10px", 
+                                        "fontSize": "16px"  # Slightly smaller heading
+                                    }
+                                ),
                                 
                                 # Place order button
                                 dbc.Row(
@@ -278,7 +296,7 @@ def get_layout(products, event_pricing_active=False):
                                 ),
                             ]
                         ),
-                        width=4,
+                        width=3,  # Changed from 4 to 3 (out of 12)
                         className="ps-1"
                     ),
                 ],
