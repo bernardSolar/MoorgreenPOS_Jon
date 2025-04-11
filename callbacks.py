@@ -183,7 +183,11 @@ def register_callbacks(app, products):
     )
     def update_order_display(order):
         if not order:
-            return "No items selected.", "Total: £0.00", "Total: £0.00"
+            # Style the "No items selected." text to have proper padding
+            return html.Div(
+                "No items selected.",
+                style={"paddingLeft": "8px", "paddingTop": "8px"}
+            ), "Total: £0.00", "Total: £0.00"
 
         item_components = []
         for i, item in enumerate(order):
@@ -191,7 +195,7 @@ def register_callbacks(app, products):
             count = item.get("count", 1)
             subtotal = unit_price * count
             
-            # Reduced font sizes by 20%
+            # Create a nicer formatted item row with proper left padding
             item_row = dbc.Row(
                 [
                     dbc.Col(
@@ -209,8 +213,8 @@ def register_callbacks(app, products):
                                      style={"fontSize": "13px"})
                         ]),
                         width=8,
-                        # Reduced padding to fit more content
-                        style={"paddingRight": "5px", "paddingLeft": "5px"}
+                        # Added proper left padding to align with the panel edge
+                        style={"paddingRight": "5px", "paddingLeft": "8px"}
                     ),
                     dbc.Col(
                         dbc.Button(
@@ -223,11 +227,16 @@ def register_callbacks(app, products):
                             style={"fontSize": "12px", "padding": "3px 8px"}
                         ),
                         width=4,
-                        style={"textAlign": "right", "paddingLeft": "0px"}
+                        style={"textAlign": "right", "paddingLeft": "0px", "paddingRight": "8px"}
                     )
                 ],
                 align="center",
-                style={"marginBottom": "3px", "paddingTop": "3px", "paddingBottom": "3px"}
+                style={
+                    "marginBottom": "3px", 
+                    "paddingTop": "3px", 
+                    "paddingBottom": "3px",
+                    "borderBottom": "1px solid #f0f0f0"  # Light separator between items
+                }
             )
             item_components.append(item_row)
 
