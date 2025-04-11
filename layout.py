@@ -149,16 +149,32 @@ def get_layout(products, event_pricing_active=False):
     for category, content in category_contents.items():
         tabs.append(dcc.Tab(label=category, value=category, children=content))
 
+    # Create event button independently to control position
+    event_button = dbc.Button(
+        "Event",
+        id="event-pricing-button",
+        color="primary" if event_pricing_active else "secondary",
+        style={"width": "120px"}
+    )
+
+    # Create order placement button
+    place_order_button = dbc.Button(
+        "Place Order",
+        id="pay-button",
+        color="success",
+        style={"width": "100%"}
+    )
+
     layout = dbc.Container(
         [
             dcc.Store(id="order-store", data=[]),
             dcc.Store(id="event-pricing-active", data=event_pricing_active),  # Initialize with passed value
             dcc.Store(id="refresh-trigger", data=0),  # Added to trigger home screen refresh
             
-            # Both logo and title header removed
-            
+            # Main content row - products and order summary
             dbc.Row(
                 [
+                    # Left side - product tabs
                     dbc.Col(
                         dcc.Tabs(
                             id="category-tabs",
@@ -168,10 +184,12 @@ def get_layout(products, event_pricing_active=False):
                         width=8,
                         className="pe-1"
                     ),
+                    
+                    # Right side - order summary
                     dbc.Col(
                         html.Div(
                             [
-                                # Container for header and order list to ensure same width
+                                # Order header and list
                                 html.Div([
                                     # Simple header bar - all in one row
                                     dbc.Row(
@@ -189,11 +207,8 @@ def get_layout(products, event_pricing_active=False):
                                                     children="Total: £0.00", 
                                                     style={"margin": "0", "paddingTop": "5px", "textAlign": "right"}
                                                 ),
-                                                width=4,
+                                                width=7,
                                             ),
-                                            # Event button removed from header
-                                            dbc.Col(width=3),
-
                                         ],
                                         className="py-1 align-items-center g-0",
                                         style={
@@ -220,35 +235,16 @@ def get_layout(products, event_pricing_active=False):
                                     )
                                 ], style={"width": "100%"}),
                                 
+                                # Order total
                                 html.H4(id="order-total", children="Total: £0.00", style={"marginTop": "10px"}),
                                 
-                                # Separate buttons - Event on far left, Place Order on right
-                                html.Div([
-                                    # Event button (left aligned)
-                                    html.Div(
-                                        dbc.Button(
-                                            "Event",
-                                            id="event-pricing-button",
-                                            color="primary" if event_pricing_active else "secondary",
-                                            style={"width": "120px"}  # Fixed width instead of percentage
-                                        ),
-                                        style={"float": "left", "marginTop": "10px"}
-                                    ),
-                                    
-                                    # Place Order button (right aligned)
-                                    html.Div(
-                                        dbc.Button(
-                                            "Place Order",
-                                            id="pay-button",
-                                            color="success",
-                                            style={"width": "100%"}
-                                        ),
-                                        style={"float": "right", "marginTop": "10px", "width": "60%"}
-                                    ),
-                                    
-                                    # Clear float
-                                    html.Div(style={"clear": "both"})
-                                ]),
+                                # Place order button
+                                dbc.Row(
+                                    [
+                                        dbc.Col(place_order_button, width=12)
+                                    ],
+                                    className="mt-2"
+                                ),
                             ]
                         ),
                         width=4,
@@ -257,6 +253,21 @@ def get_layout(products, event_pricing_active=False):
                 ],
                 align="start",
                 style={"marginTop": "5px"}
+            ),
+            
+            # Separate row for event button - positioned at very bottom
+            dbc.Row(
+                [
+                    # Event button on left
+                    dbc.Col(
+                        event_button,
+                        width={"size": 1, "offset": 0},
+                        className="mt-2"
+                    ),
+                    # Empty space
+                    dbc.Col(width=11)
+                ],
+                className="mt-2"
             ),
         ],
         fluid=True
