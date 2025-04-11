@@ -190,17 +190,27 @@ def register_callbacks(app, products):
             unit_price = item["price"]
             count = item.get("count", 1)
             subtotal = unit_price * count
+            
+            # Reduced font sizes by 20%
             item_row = dbc.Row(
                 [
                     dbc.Col(
                         html.Div([
-                            html.Span(f"{i + 1}. {item['name']} (x{count})", style={"fontSize": "20px"}),
+                            # Reduced from 20px to 16px (20% smaller)
+                            html.Span(f"{i + 1}. {item['name']} (x{count})", 
+                                     style={"fontSize": "16px", "fontWeight": "bold"}),
                             html.Br(),
-                            html.Span(f"£{unit_price:.2f} each", style={"fontSize": "16px"}),
+                            # Reduced from 16px to 13px (approximately 20% smaller)
+                            html.Span(f"£{unit_price:.2f} each", 
+                                     style={"fontSize": "13px"}),
                             html.Br(),
-                            html.Span(f"Subtotal: £{subtotal:.2f}", style={"fontSize": "16px"})
+                            # Reduced from 16px to 13px (approximately 20% smaller)
+                            html.Span(f"Subtotal: £{subtotal:.2f}", 
+                                     style={"fontSize": "13px"})
                         ]),
-                        width=8
+                        width=8,
+                        # Reduced padding to fit more content
+                        style={"paddingRight": "5px", "paddingLeft": "5px"}
                     ),
                     dbc.Col(
                         dbc.Button(
@@ -208,14 +218,16 @@ def register_callbacks(app, products):
                             id={"type": "remove-button", "index": i},
                             color="danger",
                             size="sm",
-                            n_clicks=0
+                            n_clicks=0,
+                            # Made button more compact
+                            style={"fontSize": "12px", "padding": "3px 8px"}
                         ),
                         width=4,
-                        style={"textAlign": "right"}
+                        style={"textAlign": "right", "paddingLeft": "0px"}
                     )
                 ],
                 align="center",
-                style={"marginBottom": "5px"}
+                style={"marginBottom": "3px", "paddingTop": "3px", "paddingBottom": "3px"}
             )
             item_components.append(item_row)
 
